@@ -2458,6 +2458,357 @@
    ]
   },
   {
+   "id": "L2-B10-1",
+   "lesson": 2,
+   "block": 10,
+   "topic": "Documentation and cleaning log",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Before cleaning, the lecture says the original raw file should be overwritten with the corrected version so that only one copy exists.",
+   "explanation": "False. The raw dataset should be preserved unchanged; cleaning happens on a working copy so every change can be traced and undone.",
+   "concept": "Keep the raw data; clean a copy.",
+   "source": "Lec 2.1, slides 16, 19",
+   "answer": false
+  },
+  {
+   "id": "L2-B10-2",
+   "lesson": 2,
+   "block": 10,
+   "topic": "Documentation and cleaning log",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "According to the lecture, what should each recorded cleaning rule state?",
+   "explanation": "Recording the column, the condition and the reason makes cleaning reproducible, reviewable and recoverable.",
+   "concept": "A cleaning log answers: what, under which rule, and why.",
+   "source": "Lec 2.1, slide 19",
+   "options": [
+    "Which column changed, the condition used, and why",
+    "Who ran the code, the date, and the software version",
+    "The model's accuracy before and after the change",
+    "Only the total number of rows that were deleted"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "Useful metadata, but the lecture's rule is about what changed, under what condition, and the reason.",
+    "A cleaning log records the data decision itself, not model results.",
+    "A row count alone does not say which rule was applied or why."
+   ]
+  },
+  {
+   "id": "L2-B10-3",
+   "lesson": 2,
+   "block": 10,
+   "topic": "Documentation and cleaning log",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Each line of a cleaning log pairs a decision with its justification. Match each decision to a reason that would justify it.",
+   "explanation": "The lecture's documentation table gives each preprocessing decision a stated reason, so another analyst can see why it was made.",
+   "concept": "Every preprocessing decision needs a written reason.",
+   "source": "Lec 2.1, slides 24, 27",
+   "pairs": [
+    {
+     "left": "Drop column",
+     "right": "Missingness is too high to use it reliably"
+    },
+    {
+     "left": "Impute column",
+     "right": "Numeric feature with moderate missingness"
+    },
+    {
+     "left": "Encode column",
+     "right": "Categories must be turned into numbers"
+    },
+    {
+     "left": "Scale column",
+     "right": "Its range is far larger than other features"
+    },
+    {
+     "left": "Exclude column",
+     "right": "It is an identifier, not an attribute"
+    }
+   ]
+  },
+  {
+   "id": "L2-B10-4",
+   "lesson": 2,
+   "block": 10,
+   "topic": "Cleaning principles",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why does the lecture insist that cleaning decisions be reproducible and explainable?",
+   "explanation": "Reproducible, documented rules support peer review and error recovery. If a rule turns out to be wrong, it can be found and reversed.",
+   "concept": "Documented cleaning can be audited and reversed.",
+   "source": "Lec 2.1, slides 16, 19",
+   "options": [
+    "So that the cleaned data looks perfect for the model",
+    "Because a reproducible cleaning process always raises model accuracy",
+    "So another person can repeat, check and, if needed, undo each change",
+    "So that rows with problems can be removed without any review"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "The goal is data that is analytically defensible, not artificially perfect.",
+    "Reproducibility supports review and recovery; it does not guarantee higher accuracy.",
+    null,
+    "Cleaning is not deleting inconvenient data; decisions should be reviewable."
+   ]
+  },
+  {
+   "id": "L2-B10-5",
+   "lesson": 2,
+   "block": 10,
+   "topic": "Documentation and cleaning log",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "An analyst receives a file of clinic visits, edits it directly in a spreadsheet (removing rows with unusual blood-test values and filling blanks by hand) and saves over the original. Months later a reviewer asks why 300 visits are missing, and the analyst cannot say. Which practice would have prevented this?",
+   "explanation": "The lecture's rules are: preserve the raw data, work on a copy, and record which column changed, under what condition, and why. Then the 300 missing visits could be traced to a rule, checked, and restored if the rule was wrong.",
+   "concept": "An untouched raw file plus a cleaning log makes every change traceable.",
+   "source": "Lec 2.1, slides 16, 19, 23",
+   "options": [
+    "Remove even more unusual rows so the remaining data has no extreme values",
+    "Switch from filling blanks by hand to mean imputation for every column",
+    "Rerun the model on the cleaned file and report only the final accuracy",
+    "Keep the raw file untouched, clean a working copy, and log each rule with its reason"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "Unusual values may be real; deleting inconvenient data is not valid cleaning.",
+    "Changing the method does not restore the lost audit trail or the deleted rows.",
+    "Reporting only accuracy hides the decisions the reviewer is asking about.",
+    null
+   ]
+  },
+  {
+   "id": "L2-B11-1",
+   "lesson": 2,
+   "block": 11,
+   "topic": "High-cardinality features",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "What does 'high cardinality' mean for a column?",
+   "explanation": "High cardinality means many unique categories, such as names, ticket codes or cabin labels.",
+   "concept": "Cardinality counts distinct categories.",
+   "source": "Lec 2.1, slide 49",
+   "options": [
+    "It is a numeric column with a very large range",
+    "It is a categorical column with very many unique values",
+    "It is a column with a large share of missing values",
+    "It is a column that is perfectly correlated with the target"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "A large numeric range is a scaling issue, not cardinality.",
+    null,
+    "That is high missingness, a different problem.",
+    "That suggests leakage or redundancy, not cardinality."
+   ]
+  },
+  {
+   "id": "L2-B11-2",
+   "lesson": 2,
+   "block": 11,
+   "topic": "High-cardinality features",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "One-hot encoding a column such as each customer's full name would create many nearly unique columns that add little useful information.",
+   "explanation": "True. The lecture warns that one-hot encoding Name would create many nearly unique columns, which is not useful in an introductory workflow.",
+   "concept": "One-hot encoding a near-unique column explodes the feature count.",
+   "source": "Lec 2.1, slide 49",
+   "answer": true
+  },
+  {
+   "id": "L2-B11-3",
+   "lesson": 2,
+   "block": 11,
+   "topic": "High-cardinality features",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Instead of keeping a sparse, complex text column, the lecture's workflow can replace it with a binary indicator recording whether a value was present.",
+   "explanation": "True. Cabin is dropped but a Cabin_missing indicator is kept, because whether Cabin was recorded may carry information.",
+   "concept": "A messy column can be reduced to a simpler, meaningful feature.",
+   "source": "Lec 2.1, slides 27, 40",
+   "answer": true
+  },
+  {
+   "id": "L2-B11-4",
+   "lesson": 2,
+   "block": 11,
+   "topic": "High-cardinality features",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why is an ID-like column with a unique code for every row risky to give a model, even after encoding it?",
+   "explanation": "A value that is unique to each row identifies the row rather than describing a pattern. Lecture 3.1 lists such features (e.g. Student ID) as overfitting risks, being too specific to the training set.",
+   "concept": "Unique identifiers describe rows, not patterns.",
+   "source": "Lec 2.1, slides 20, 49; Lec 3.1, slide 38",
+   "options": [
+    "It turns the dataset into semi-structured data",
+    "It always contains missing values that break the encoder",
+    "It forces the model to treat the column as an ordinal scale",
+    "It lets the model memorise rows instead of learning patterns"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "Encoding a column does not change the dataset's structural type.",
+    "Unique codes need not be missing; the problem is that they are unique.",
+    "One-hot encoding avoids imposed order; the issue is memorisation.",
+    null
+   ]
+  },
+  {
+   "id": "L2-B11-5",
+   "lesson": 2,
+   "block": 11,
+   "topic": "High-cardinality features",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "An online shop wants to predict product returns. Its data has product_sku (18,000 unique codes), category (12 values) and customer_id. Which preprocessing plan follows the lectures?",
+   "explanation": "Low-cardinality nominal columns suit one-hot encoding. Identifiers are excluded. Very high-cardinality columns are handled through feature engineering (recoding or grouping), which Lecture 3.1 lists among common operations.",
+   "concept": "Encoding choice depends on cardinality and meaning.",
+   "source": "Lec 2.1, slides 43, 46, 49; Lec 3.1, slide 19",
+   "options": [
+    "One-hot encode category, exclude customer_id, and group product_sku codes",
+    "One-hot encode all three columns so that no information is lost along the way",
+    "Label-encode product_sku as 0 to 17,999 so it fits in a single numeric column",
+    "Drop category because it has the fewest unique values of the three columns"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "This creates tens of thousands of near-unique columns and lets the model memorise customers.",
+    "Label encoding a nominal column implies a false order and distance between products.",
+    "A low-cardinality nominal column is exactly what one-hot encoding suits."
+   ]
+  },
+  {
+   "id": "L2-B12-1",
+   "lesson": 2,
+   "block": 12,
+   "topic": "Risks of imputation",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Once missing values have been imputed, the lecture says they can be treated as observed facts in the final report.",
+   "explanation": "False. Imputed values are estimates, not observed facts, and reports should state what was imputed, how, and why.",
+   "concept": "Imputed means estimated.",
+   "source": "Lec 2.1, slide 38",
+   "answer": false
+  },
+  {
+   "id": "L2-B12-2",
+   "lesson": 2,
+   "block": 12,
+   "topic": "Risks of imputation",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "What does the lecture say a report should state about imputation?",
+   "explanation": "Transparency lets readers judge how much the results depend on estimated values.",
+   "concept": "Report every imputation and its rationale.",
+   "source": "Lec 2.1, slide 38",
+   "options": [
+    "The names of the people who collected the data",
+    "Nothing, because imputation is a routine preprocessing step",
+    "What was imputed, by which method, and why",
+    "Only the columns that had no missing values at all"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Data collectors are not what the lecture asks reports to state about imputation.",
+    "The lecture explicitly asks for imputation to be reported.",
+    null,
+    "Complete columns were not imputed, so they say nothing about the estimates added."
+   ]
+  },
+  {
+   "id": "L2-B12-3",
+   "lesson": 2,
+   "block": 12,
+   "topic": "Risks of imputation",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Which practice does the lecture recommend in serious research to check how much results depend on imputation choices?",
+   "explanation": "Sensitivity analysis compares results under different reasonable imputation choices to see whether conclusions hold.",
+   "concept": "Test whether conclusions survive different imputation choices.",
+   "source": "Lec 2.1, slide 38",
+   "options": [
+    "Min-max scaling",
+    "Sensitivity analysis",
+    "Label encoding",
+    "Listwise deletion of every incomplete row"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Scaling changes feature ranges; it does not test robustness to imputation.",
+    null,
+    "Encoding converts categories to numbers; it is unrelated to imputation checks.",
+    "Deletion is another strategy, not a check on how results change between strategies."
+   ]
+  },
+  {
+   "id": "L2-B12-4",
+   "lesson": 2,
+   "block": 12,
+   "topic": "Risks of imputation",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why can heavy imputation make results look more precise than they really are?",
+   "explanation": "Filling many gaps adds rows that look complete, so the analysis appears to rest on more real evidence than it does. That is why the lecture warns about false precision and asks for reporting and sensitivity analysis.",
+   "concept": "Many filled values can create false confidence.",
+   "source": "Lec 2.1, slide 38",
+   "options": [
+    "Imputation always increases the spread of each column",
+    "Estimated values are counted as if they were real observations",
+    "Imputed values are always extreme outliers",
+    "Imputation deletes rows, shrinking the dataset"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Mean or median imputation tends to shrink spread, not increase it.",
+    null,
+    "Imputed values are usually central values such as the median or mode.",
+    "Deletion removes rows; imputation keeps them by filling values."
+   ]
+  },
+  {
+   "id": "L2-B12-5",
+   "lesson": 2,
+   "block": 12,
+   "topic": "Risks of imputation",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A city survey records household income. Income is missing far more often for one neighbourhood. The analyst fills every gap with the city-wide median, and the model is used to allocate support funds. What is the main concern?",
+   "explanation": "When missingness is linked to social or demographic processes, imputation can affect fairness. Here the missingness depends on neighbourhood (MAR, or possibly MNAR), so a single median can misrepresent that group. The lecture says to report the imputation and, in serious settings, run sensitivity analysis; a missing indicator may also help, used with care.",
+   "concept": "Imputation choices can create unfairness when missingness follows group lines.",
+   "source": "Lec 2.1, slides 31, 36, 38",
+   "options": [
+    "Group-linked missingness can bias results, so report and test it",
+    "Median imputation is never acceptable for any numerical variable at all",
+    "The neighbourhood column should be one-hot encoded before imputing",
+    "The data is missing completely at random, so imputation is unbiased"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "The lecture calls median imputation a defensible baseline for skewed numeric data.",
+    "Encoding the neighbourhood does not address the biased missingness.",
+    "Missingness depends on neighbourhood, an observed variable, so it is not MCAR."
+   ]
+  },
+  {
    "id": "L2-X1",
    "lesson": 2,
    "block": 0,
@@ -3677,6 +4028,493 @@
    ]
   },
   {
+   "id": "L3-B11-1",
+   "lesson": 3,
+   "block": 11,
+   "topic": "Feature selection methods",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Feature-selection families: match each approach to how it decides which features to keep.",
+   "explanation": "The lecture labels filter methods statistical and fast, wrapper methods iterative and accurate, and embedded methods internal to the model. Permutation importance is listed as a model-based relevance measure for later study.",
+   "concept": "Filters score, wrappers search, embedded methods select while fitting.",
+   "source": "Lec 3.1, slides 47, 63",
+   "pairs": [
+    {
+     "left": "Filter",
+     "right": "Ranks features with a statistic before any model is trained"
+    },
+    {
+     "left": "Wrapper",
+     "right": "Trains a model on candidate subsets and compares them"
+    },
+    {
+     "left": "Embedded",
+     "right": "The model selects features as part of its own training"
+    },
+    {
+     "left": "Permutation importance",
+     "right": "Measures how much predictions worsen when a feature is shuffled"
+    }
+   ]
+  },
+  {
+   "id": "L3-B11-2",
+   "lesson": 3,
+   "block": 11,
+   "topic": "Feature selection methods",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Ranking features by their correlation with the target, or removing near-zero-variance features, belongs to which family?",
+   "explanation": "Correlation-based and variance-based screening are statistical filters: quick to compute and independent of any particular model.",
+   "concept": "Statistical screening without a model is filtering.",
+   "source": "Lec 3.1, slides 47, 48, 50",
+   "options": [
+    "Wrapper methods",
+    "Embedded methods",
+    "Filter methods",
+    "Principal component analysis"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Wrappers train a model on subsets; correlation and variance need no model.",
+    "Embedded selection happens inside model training, such as through regularisation.",
+    null,
+    "PCA builds new components; it does not keep original columns."
+   ]
+  },
+  {
+   "id": "L3-B11-3",
+   "lesson": 3,
+   "block": 11,
+   "topic": "Feature selection methods",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "The lecture labels wrapper methods as the fastest family because they rely only on simple statistics.",
+   "explanation": "False. Filters are the fast, statistical family. Wrappers are iterative and described as more accurate, because they repeatedly train a model.",
+   "concept": "Speed belongs to filters; wrappers trade speed for model-aware accuracy.",
+   "source": "Lec 3.1, slide 47",
+   "answer": false
+  },
+  {
+   "id": "L3-B11-4",
+   "lesson": 3,
+   "block": 11,
+   "topic": "Feature selection methods",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why are wrapper methods usually slower than filter methods?",
+   "explanation": "A wrapper tries subsets 'using a model', so its cost grows with the number of subsets it evaluates. A filter scores each feature once with a statistic.",
+   "concept": "Repeated model fitting is what makes wrappers expensive.",
+   "source": "Lec 3.1, slides 47, 63",
+   "options": [
+    "They compute one correlation coefficient for every feature",
+    "They train and evaluate a model for each candidate subset of features",
+    "They must always run PCA on the data before selecting",
+    "They only work with deep neural networks as the model"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "That is what a filter does, and it is cheap.",
+    null,
+    "Wrappers do not depend on PCA.",
+    "Wrappers can use any model; their cost comes from repeated fitting."
+   ]
+  },
+  {
+   "id": "L3-B11-5",
+   "lesson": 3,
+   "block": 11,
+   "topic": "Feature selection methods",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A team has 40 candidate features, only 300 rows and limited computing time. They want a quick first screen, then a model that removes useless features while it trains. Which plan fits the lectures?",
+   "explanation": "Filters are the recommended first screen because they are fast. Embedded selection 'links to regularisation': Lasso (Lecture 5.1) can set coefficients exactly to zero while fitting.",
+   "concept": "Cheap filter first, then let a regularised model finish the selection.",
+   "source": "Lec 3.1, slides 47, 53, 63; Lec 5.1, slide 26",
+   "options": [
+    "A wrapper search over every possible subset, followed by PCA",
+    "PCA first, then reading the components as the selected features",
+    "No selection at all, plus interaction terms for every pair",
+    "A filter screen first, then an embedded method such as Lasso"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "Every subset of 40 features is about a trillion fits, and PCA does not select original features.",
+    "PCA creates new combined components; it does not keep or remove original columns.",
+    "Hundreds of interactions add complexity and overfitting risk with only 300 rows.",
+    null
+   ]
+  },
+  {
+   "id": "L3-B12-1",
+   "lesson": 3,
+   "block": 12,
+   "topic": "Leakage in selection and PCA",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "To avoid leakage, the number of PCA components should be chosen using the test set's explained variance, since it represents unseen data.",
+   "explanation": "False. Everything PCA learns, including how many components to keep, must come from the training data; the test set is only transformed and scored at the end.",
+   "concept": "The test set never guides fitting decisions.",
+   "source": "Lec 3.1, slides 61, 62",
+   "answer": false
+  },
+  {
+   "id": "L3-B12-2",
+   "lesson": 3,
+   "block": 12,
+   "topic": "Leakage in selection and PCA",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Which order of steps avoids leakage when selecting features?",
+   "explanation": "Selection, encoding, scaling and PCA must all be fitted on the training data and then applied unchanged to the test data.",
+   "concept": "Fit on train, apply to test.",
+   "source": "Lec 3.1, slides 14, 39, 53",
+   "options": [
+    "Select features on all the data, then split into train and test",
+    "Split, fit the selection on the test set, then apply it to the training set",
+    "Split, then fit a separate selection on the training set and on the test set",
+    "Split, fit the selection on the training set, then apply it to the test set"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "The test rows have then influenced which features were chosen.",
+    "The test set must stay unseen; it cannot drive any fitting.",
+    "The test set should be transformed with what was learned from training, not fitted on its own.",
+    null
+   ]
+  },
+  {
+   "id": "L3-B12-3",
+   "lesson": 3,
+   "block": 12,
+   "topic": "Leakage in selection and PCA",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "A school wants an early-warning model that predicts the final grade at the start of term. Which input would be target leakage?",
+   "explanation": "Leakage is information that would not genuinely be available when predicting. A feature derived from the target itself is the clearest case.",
+   "concept": "If it would not exist at prediction time, it cannot be an input.",
+   "source": "Lec 3.1, slides 39, 42",
+   "options": [
+    "The number of absences recorded before the prediction date",
+    "A feature computed from the final exam score being predicted",
+    "The school the student attends",
+    "Whether the student has internet access at home"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Absences recorded before prediction are available at that time.",
+    null,
+    "School is known in advance and is not derived from the outcome.",
+    "This is background information available at prediction time."
+   ]
+  },
+  {
+   "id": "L3-B12-4",
+   "lesson": 3,
+   "block": 12,
+   "topic": "Leakage in selection and PCA",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "analysis",
+   "question": "A researcher picks the 10 features most correlated with the target using all 1,000 rows, then runs 5-fold cross-validation on those 10 features and reports a high score. Why is the score optimistic?",
+   "explanation": "Selecting on the full dataset before evaluation is the lecture's first selection mistake. Each fold's validation rows helped pick the features, so they are not truly unseen.",
+   "concept": "Selection belongs inside the training folds.",
+   "source": "Lec 3.1, slide 53",
+   "options": [
+    "The validation rows already influenced which features were chosen",
+    "Five folds are too few to give any useful estimate",
+    "Correlation cannot be used to rank features for regression",
+    "Cross-validation always overestimates performance"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "Five folds is a normal choice; the problem is where selection happened.",
+    "Correlation ranking is a valid filter; it was just fitted on the wrong rows.",
+    "Cross-validation is reliable when every fitted step stays inside the training folds."
+   ]
+  },
+  {
+   "id": "L3-B12-5",
+   "lesson": 3,
+   "block": 12,
+   "topic": "Leakage in selection and PCA",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "An analyst standardises all 395 student records, fits PCA on them, keeps 3 components, and only then splits 80/20 to train and test a model. A reviewer says the test score cannot be trusted. What is the correct fix?",
+   "explanation": "Both the scaler and PCA learned from rows that later became test data. Fitting them on the training split only, ideally inside a pipeline, keeps the test set unseen.",
+   "concept": "Pipelines keep every fitted step on the training side.",
+   "source": "Lec 3.1, slides 56, 62; Lec 2.1, slide 63",
+   "options": [
+    "Keep more principal components so less information is lost in the reduction",
+    "Skip the standardisation step so the test rows stay completely untouched",
+    "Fit scaler and PCA on the training split only, then transform the test split",
+    "Fit a separate PCA on the test split so it gets its own components"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Keeping more components changes information loss, not leakage.",
+    "PCA needs standardisation, and the PCA fit itself would still leak.",
+    null,
+    "The test data must be projected onto the components learned from training."
+   ]
+  },
+  {
+   "id": "L3-B13-1",
+   "lesson": 3,
+   "block": 13,
+   "topic": "Good and bad features",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "The lecture's checklist for a good feature: match each quality to what it means.",
+   "explanation": "These four qualities describe a feature worth keeping: informative, non-duplicative, broadly useful and cheap to produce when predicting.",
+   "concept": "Good features are informative, distinct, portable and cheap.",
+   "source": "Lec 3.1, slide 37",
+   "pairs": [
+    {
+     "left": "High correlation",
+     "right": "Closely related to the target"
+    },
+    {
+     "left": "Low redundancy",
+     "right": "Does not repeat information already in other columns"
+    },
+    {
+     "left": "Model agnostic",
+     "right": "Useful across different types of algorithms"
+    },
+    {
+     "left": "Computationally efficient",
+     "right": "Easy to calculate at prediction time"
+    }
+   ]
+  },
+  {
+   "id": "L3-B13-2",
+   "lesson": 3,
+   "block": 13,
+   "topic": "Good and bad features",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Warning signs of a bad feature: match each one to its description.",
+   "explanation": "The lecture names leakage as the most dangerous, followed by constant, sparse and overly specific features such as Student ID.",
+   "concept": "Leakage is the most dangerous bad feature.",
+   "source": "Lec 3.1, slides 38, 39",
+   "pairs": [
+    {
+     "left": "Constant",
+     "right": "Every row has the same value"
+    },
+    {
+     "left": "Sparse",
+     "right": "Almost all rows are zero or empty"
+    },
+    {
+     "left": "Overfitting",
+     "right": "So specific that it identifies individual training rows"
+    },
+    {
+     "left": "Leaky",
+     "right": "Uses information not available at prediction time"
+    }
+   ]
+  },
+  {
+   "id": "L3-B13-3",
+   "lesson": 3,
+   "block": 13,
+   "topic": "Domain knowledge",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "The lecture says strong engineered features usually come from blind trial and error over many transformations.",
+   "explanation": "False. Strong features usually come from understanding the domain, for example asking what a teacher or advisor would consider informative.",
+   "concept": "Domain understanding beats blind search.",
+   "source": "Lec 3.1, slide 36",
+   "answer": false
+  },
+  {
+   "id": "L3-B13-4",
+   "lesson": 3,
+   "block": 13,
+   "topic": "Good and bad features",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why must an engineered feature be available at prediction time?",
+   "explanation": "A model trained with a feature it will not have when deployed shows unrealistically good test results, then fails in use. The transformation must be reproducible and available at prediction time.",
+   "concept": "Train only on what you will have when predicting.",
+   "source": "Lec 3.1, slides 21, 42",
+   "options": [
+    "Features computed later are always less accurate than earlier ones",
+    "Features that are available at prediction time never need scaling",
+    "A deployed model cannot use a value that does not exist yet when it must predict",
+    "Only features available at prediction time can be one-hot encoded"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Accuracy is not the issue; availability is.",
+    "Availability has nothing to do with scaling needs.",
+    null,
+    "Encoding is possible for any categorical column; the issue is using it in deployment."
+   ]
+  },
+  {
+   "id": "L3-B13-5",
+   "lesson": 3,
+   "block": 13,
+   "topic": "Good and bad features",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A gym wants to predict which members will cancel next month. Proposed features: (a) average visits per week over the last three months, (b) whether the member has already submitted a cancellation form, (c) member ID, (d) country, which is 'Bahrain' for every member. Which feature should be kept?",
+   "explanation": "Recent visit frequency is meaningful, available before the outcome, and not an identifier. The other three are leaky, overfitting and constant features from the lecture's warning list.",
+   "concept": "Check each feature against leakage, identifiers and zero variance.",
+   "source": "Lec 3.1, slides 36, 37, 38",
+   "options": [
+    "The cancellation-form flag, since it predicts cancellation best",
+    "Average visits per week over the last three months",
+    "Member ID, since it is different for every single member",
+    "Country, since it is complete with no missing values at all"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "It records the outcome itself, so it leaks the target.",
+    null,
+    "A unique identifier lets the model memorise members; it is an overfitting feature.",
+    "Every row is the same, so it has zero variance and adds nothing."
+   ]
+  },
+  {
+   "id": "L3-B14-1",
+   "lesson": 3,
+   "block": 14,
+   "topic": "Difference features",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "application",
+   "question": "For a student with G1 = 12 and G2 = 9, what is grade_progress, defined as G2 − G1?",
+   "explanation": "grade_progress = 9 − 12 = −3. A negative value indicates a decline between the first and second periods.",
+   "concept": "Sign shows direction: negative means decline.",
+   "source": "Lec 3.1, slide 22",
+   "options": [
+    "−3",
+    "3",
+    "10.5",
+    "21"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "This reverses the subtraction (G1 − G2).",
+    "This is avg_early_grade, (G1 + G2) / 2.",
+    "This is the sum G1 + G2."
+   ]
+  },
+  {
+   "id": "L3-B14-2",
+   "lesson": 3,
+   "block": 14,
+   "topic": "Interaction features",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "application",
+   "question": "A student has studytime = 3 and G2 = 14. What is study_effect, defined as studytime × G2?",
+   "explanation": "study_effect = 3 × 14 = 42. The interaction lets a linear model represent that the effect of study time can depend on current achievement.",
+   "concept": "An interaction is a product of two features.",
+   "source": "Lec 3.1, slides 28, 30",
+   "options": [
+    "17",
+    "11",
+    "4.67",
+    "42"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "This adds the two values instead of multiplying them.",
+    "This subtracts studytime from G2.",
+    "This divides G2 by studytime, which would be a ratio feature.",
+    null
+   ]
+  },
+  {
+   "id": "L3-B14-3",
+   "lesson": 3,
+   "block": 14,
+   "topic": "Categorical and ordinal features",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Running pd.get_dummies(df['school'], prefix='school') on a column whose values are GP and MS produces two indicator columns, school_GP and school_MS.",
+   "explanation": "True. One-hot encoding creates one indicator column per category, named with the given prefix.",
+   "concept": "One-hot gives one column per category.",
+   "source": "Lec 3.1, slides 34, 41",
+   "answer": true
+  },
+  {
+   "id": "L3-B14-4",
+   "lesson": 3,
+   "block": 14,
+   "topic": "Difference features",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Two students both have grade_progress = 0: one has G1 = G2 = 17 and the other has G1 = G2 = 7. What does the lecture conclude from cases like this?",
+   "explanation": "The same progress value can come from very different situations, so an engineered feature is most useful combined with complementary variables like G2 or avg_early_grade.",
+   "concept": "Engineered features often need context from level features.",
+   "source": "Lec 3.1, slide 23",
+   "options": [
+    "The two students should be expected to get the same final grade",
+    "grade_progress should be read together with a level feature such as G2",
+    "grade_progress is useless and should be removed from the model",
+    "The feature has an error, because two students share one value"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Equal progress hides very different grade levels.",
+    null,
+    "It still captures momentum; it is just incomplete on its own.",
+    "Different students can legitimately have the same engineered value."
+   ]
+  },
+  {
+   "id": "L3-B14-5",
+   "lesson": 3,
+   "block": 14,
+   "topic": "PCA interpretation",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "After standardising G1, G2, studytime, failures and absences, PCA with 2 components prints explained_variance_ratio_ = [0.48, 0.21]. PC1's loadings are G1 0.60, G2 0.60, studytime 0.20, failures −0.40, absences −0.10. A colleague says: 'PC1 is the students' ability, and these two components keep all the information.' What is the best response?",
+   "explanation": "Read PC1 from its largest-magnitude loadings: high early grades and few failures. The lecture warns against assuming PC1 is 'ability' without checking, and against treating loadings as causal. 0.48 + 0.21 = 0.69, so about 31% of the variance is discarded.",
+   "concept": "Interpret components from loadings, and add up explained variance.",
+   "source": "Lec 3.1, slides 58, 59, 61, 62",
+   "options": [
+    "The colleague is right, because PC1 has the largest explained variance ratio of the two",
+    "PC1 shows that failures cause lower grades, because its failures loading is negative",
+    "Absences matters most, because its loading of −0.10 is the closest one to zero",
+    "PC1 tracks strong grades and few failures, isn't proven 'ability', and the two keep only ~69% of variance"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "A large ratio does not justify a label, and 0.48 + 0.21 is far from 100%.",
+    "Loadings summarise covariance structure; they are not causal effects.",
+    "Importance is read from large magnitudes; a near-zero loading means little contribution.",
+    null
+   ]
+  },
+  {
    "id": "L3-X1",
    "lesson": 3,
    "block": 0,
@@ -3740,6 +4578,32 @@
     "PCA is usually unsupervised and does not use the target.",
     "That describes standardisation, not PCA.",
     null
+   ]
+  },
+  {
+   "id": "L3-X4",
+   "lesson": 3,
+   "block": 0,
+   "topic": "Feature selection",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why does the lecture call feature selection 'a decision aid rather than a purely mechanical rule'?",
+   "explanation": "A feature can look irrelevant alone but be useful in an interaction, and a relevant feature may still be excluded if it is not available when predicting. Judgment is needed alongside the numbers.",
+   "concept": "Selection scores guide judgment; they do not replace it.",
+   "source": "Lec 3.1, slides 45, 53",
+   "options": [
+    "Because statistical scores are always wrong for real data",
+    "Because selection should be repeated until only one feature is left",
+    "Weak features can help in combination, and relevance depends on the scenario",
+    "Because feature selection changes the values inside each column"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Scores are useful guides; they just are not the whole story.",
+    "The aim is a useful subset, not a single feature.",
+    null,
+    "Selection keeps or drops columns; it does not change their values."
    ]
   },
   {
@@ -4917,6 +5781,358 @@
     "These weights sum to 1.4; they must be normalised to sum to 1.",
     "Misclassified parts get more weight, not less.",
     "AdaBoost increases the weight of misclassified samples so the next learner focuses on them."
+   ]
+  },
+  {
+   "id": "L4-B11-1",
+   "lesson": 4,
+   "block": 11,
+   "topic": "Soft and hard voting",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "application",
+   "question": "For one sample, model A predicts class probabilities [0.6, 0.4] and model B predicts [0.2, 0.8]. What does soft voting predict?",
+   "explanation": "Average per class: class 0 = (0.6 + 0.2) / 2 = 0.4; class 1 = (0.4 + 0.8) / 2 = 0.6. argmax picks class 1.",
+   "concept": "Soft voting averages probabilities, then takes the argmax.",
+   "source": "Lec 4.1, slides 41, 42",
+   "options": [
+    "Class 0, because model A is more confident than model B",
+    "Class 0, with average probability 0.4",
+    "No class, because the two models disagree with each other",
+    "Class 1, with average probability 0.6"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "A's 0.6 is less confident than B's 0.8, and soft voting averages anyway.",
+    "0.4 is the average for class 0, the smaller one, so class 0 loses.",
+    "Soft voting always returns the class with the highest average probability.",
+    null
+   ]
+  },
+  {
+   "id": "L4-B11-2",
+   "lesson": 4,
+   "block": 11,
+   "topic": "AdaBoost",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "application",
+   "question": "Sample weights start at [0.25, 0.25, 0.25, 0.25]. Only sample 3 (index 2) is misclassified. Using the lecture's rule (double the weight of each error, then normalise to sum 1), what are the new weights?",
+   "explanation": "After doubling: [0.25, 0.25, 0.5, 0.25], total 1.25. Dividing by 1.25 gives [0.2, 0.2, 0.4, 0.2]. The next learner now focuses more on sample 3.",
+   "concept": "Boosting up-weights mistakes, then renormalises.",
+   "source": "Lec 4.1, slides 51, 52",
+   "options": [
+    "[0.25, 0.25, 0.5, 0.25]",
+    "[0.2, 0.2, 0.4, 0.2]",
+    "[0.25, 0.25, 0.125, 0.25]",
+    "[0.3, 0.3, 0.1, 0.3]"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "This doubles the error but forgets to normalise; the weights sum to 1.25.",
+    null,
+    "This halves the misclassified sample instead of increasing it.",
+    "This shifts weight towards the correct samples, the opposite of boosting."
+   ]
+  },
+  {
+   "id": "L4-B11-3",
+   "lesson": 4,
+   "block": 11,
+   "topic": "Soft and hard voting",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "In the lecture's soft-voting code, np.mean(all_probs, axis=0) averages each class probability across the models, and np.argmax(avg_probs, axis=1) then picks a class for each sample.",
+   "explanation": "True. The predictions are stacked with models along axis 0, averaged across models, and argmax along axis 1 chooses the most probable class per sample.",
+   "concept": "Average across models, argmax across classes.",
+   "source": "Lec 4.1, slide 42",
+   "answer": true
+  },
+  {
+   "id": "L4-B11-4",
+   "lesson": 4,
+   "block": 11,
+   "topic": "Gradient boosting",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "application",
+   "question": "In gradient boosting for two samples, the true values are y = [10, 14] and Tree 1 predicts [12, 11]. What does Tree 2 try to predict?",
+   "explanation": "Residual = y − ŷ: 10 − 12 = −2 and 14 − 11 = 3. Tree 2 learns 'how much Tree 1 got wrong', and its output is added (scaled by the learning rate) to Tree 1's.",
+   "concept": "Each boosting tree fits what is left over.",
+   "source": "Lec 4.1, slides 53, 54",
+   "options": [
+    "[2, −3]",
+    "[10, 14]",
+    "[−2, 3]",
+    "[22, 25]"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "This is prediction minus truth; residuals are truth minus prediction.",
+    "That is the original target, which Tree 1 already fitted.",
+    null,
+    "This adds truth and prediction, which has no meaning here."
+   ]
+  },
+  {
+   "id": "L4-B11-5",
+   "lesson": 4,
+   "block": 11,
+   "topic": "Soft and hard voting",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A fraud team combines three classifiers. For one transaction, their fraud probabilities are 0.90, 0.45 and 0.40 (threshold 0.5). What do hard and soft voting decide?",
+   "explanation": "Hard voting: one vote for fraud, two against, so not fraud. Soft voting: the average is 1.75 / 3 ≈ 0.58 > 0.5, so fraud. Soft voting lets the confident model count for more, which is why the lecture prefers it.",
+   "concept": "Hard voting counts; soft voting weighs confidence.",
+   "source": "Lec 4.1, slide 42; Lec 5.1, slide 28",
+   "options": [
+    "Both say fraud, because one of the three models is very confident",
+    "Both say not fraud, because most of the models are below 0.5",
+    "Hard voting says fraud, while soft voting says the transaction is not fraud",
+    "Hard voting says not fraud (2 of 3 votes); soft voting says fraud (average about 0.58)"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "Hard voting counts votes; one confident model is still outvoted 2 to 1.",
+    "Soft voting averages probabilities: (0.90 + 0.45 + 0.40) / 3 ≈ 0.58.",
+    "This reverses the two rules' outcomes.",
+    null
+   ]
+  },
+  {
+   "id": "L4-B12-1",
+   "lesson": 4,
+   "block": 12,
+   "topic": "Boosting libraries",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "XGBoost has no built-in regularisation, so it depends only on the learning rate to avoid overfitting.",
+   "explanation": "False. XGBoost's key feature is L1/L2 regularisation, which helps prevent overfitting, alongside sparse-data handling and parallel tree construction.",
+   "concept": "XGBoost is regularised boosting.",
+   "source": "Lec 4.1, slides 56, 57",
+   "answer": false
+  },
+  {
+   "id": "L4-B12-2",
+   "lesson": 4,
+   "block": 12,
+   "topic": "Learning rate and estimators",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Lowering the learning rate in gradient boosting usually means more trees (n_estimators) are needed.",
+   "explanation": "True. Each tree contributes less, so more trees are needed; the payoff is usually better generalisation.",
+   "concept": "Smaller steps need more trees.",
+   "source": "Lec 4.1, slide 55; Lec 5.1, slide 34",
+   "answer": true
+  },
+  {
+   "id": "L4-B12-3",
+   "lesson": 4,
+   "block": 12,
+   "topic": "Gradient boosting hyperparameters",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Gradient-boosting settings: match each hyperparameter to what it controls.",
+   "explanation": "These are the main controls shown for gradient boosting. Shrinkage (a small learning rate) is the main guard against overfitting, and subsampling gives stochastic gradient boosting.",
+   "concept": "Boosting is tuned through trees, step size, depth and sampling.",
+   "source": "Lec 4.1, slide 55; Lec 5.1, slide 34",
+   "pairs": [
+    {
+     "left": "n_estimators",
+     "right": "How many trees are added in sequence"
+    },
+    {
+     "left": "learning_rate",
+     "right": "How much each new tree's output counts"
+    },
+    {
+     "left": "max_depth = 2 to 4",
+     "right": "Keeps each tree a weak learner"
+    },
+    {
+     "left": "subsample < 1.0",
+     "right": "Fits each tree on a random part of the data"
+    }
+   ]
+  },
+  {
+   "id": "L4-B12-4",
+   "lesson": 4,
+   "block": 12,
+   "topic": "Gradient boosting hyperparameters",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why do boosting models keep max_depth small (about 2 to 4) while random forests usually grow deep trees?",
+   "explanation": "Bagging needs complex, low-bias base learners and reduces their variance by averaging. Boosting starts from weak learners and reduces bias step by step; deep trees would make each step too strong and overfit.",
+   "concept": "Each ensemble type needs the opposite kind of base learner.",
+   "source": "Lec 4.1, slides 44, 50; Lec 5.1, slide 34",
+   "options": [
+    "Deep trees cannot be trained one after another in sequence",
+    "Boosting stacks weak learners to cut bias; bagging averages strong trees",
+    "Shallow trees are required so trees can be built in parallel",
+    "Random forests cannot overfit, however deep their trees grow"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Deep trees can be trained sequentially; it just defeats boosting's purpose.",
+    null,
+    "Parallel construction is unrelated to why boosting keeps trees shallow.",
+    "Lecture 5.1 advises reducing max_depth when a random forest overfits."
+   ]
+  },
+  {
+   "id": "L4-B12-5",
+   "lesson": 4,
+   "block": 12,
+   "topic": "Gradient boosting hyperparameters",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A gradient boosting classifier with n_estimators=300, learning_rate=0.3 and max_depth=8 reaches 100% training accuracy, but validation accuracy falls as trees are added. Which changes follow the lecture's guidance?",
+   "explanation": "The model is overfitting. Shrinkage (a lower learning rate, balanced with more trees) and shallow trees that stay weak learners are the lecture's main remedies.",
+   "concept": "Fix boosting overfitting with smaller steps and weaker trees.",
+   "source": "Lec 4.1, slide 55; Lec 5.1, slide 33; Lec 5.1, slide 34",
+   "options": [
+    "Raise learning_rate so the model converges using fewer trees",
+    "Increase max_depth so each tree can capture more of the detail",
+    "Lower learning_rate, add more trees, and limit max_depth to about 3",
+    "Remove subsampling so every tree trains on all the data rows"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Bigger steps make each tree count more and usually worsen overfitting.",
+    "Deeper trees are stronger learners and overfit even faster.",
+    null,
+    "Subsampling below 1.0 adds randomness that helps generalisation."
+   ]
+  },
+  {
+   "id": "L4-B13-1",
+   "lesson": 4,
+   "block": 13,
+   "topic": "Choosing an ensemble",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Choosing an ensemble: match each goal to the approach the lecture associates with it.",
+   "explanation": "The lecture's summary: bagging for stability, boosting for performance, trees for interpretability. Stacking trains a meta-model to combine base models.",
+   "concept": "Match the ensemble to the goal.",
+   "source": "Lec 4.1, slides 59, 61",
+   "pairs": [
+    {
+     "left": "Stabilise a high-variance model",
+     "right": "Bagging or random forest"
+    },
+    {
+     "left": "Push accuracy higher by correcting errors",
+     "right": "Boosting"
+    },
+    {
+     "left": "Learn which base model to trust",
+     "right": "Stacking"
+    },
+    {
+     "left": "Keep the model easy to interpret",
+     "right": "A single decision tree"
+    }
+   ]
+  },
+  {
+   "id": "L4-B13-2",
+   "lesson": 4,
+   "block": 13,
+   "topic": "Choosing an ensemble",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "The lecture's summary recommends boosting mainly for stability and bagging mainly for performance.",
+   "explanation": "False. It is the other way round: bagging for stability (variance reduction), boosting for performance (bias reduction).",
+   "concept": "Bagging stabilises; boosting improves.",
+   "source": "Lec 4.1, slide 61",
+   "answer": false
+  },
+  {
+   "id": "L4-B13-3",
+   "lesson": 4,
+   "block": 13,
+   "topic": "Boosting libraries",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "According to the lecture's comparison table, which boosting library is best suited to data with many categorical features?",
+   "explanation": "CatBoost's key innovation is ordered boosting, and the table lists it as best for categorical data.",
+   "concept": "CatBoost targets categorical data.",
+   "source": "Lec 4.1, slide 57",
+   "options": [
+    "CatBoost",
+    "XGBoost",
+    "LightGBM",
+    "AdaBoost"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "XGBoost is listed for regularised boosting on small to medium data.",
+    "LightGBM is listed for large-scale data, using leaf-wise growth.",
+    "AdaBoost is not in that table; it re-weights samples using stumps."
+   ]
+  },
+  {
+   "id": "L4-B13-4",
+   "lesson": 4,
+   "block": 13,
+   "topic": "Diversity in ensembles",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why would an ensemble of five identical decision trees, trained on the same data, give no benefit over one tree?",
+   "explanation": "Ensembles work because diverse models make uncorrelated errors that cancel out. Diversity comes from different algorithms, different training data (bagging) or different feature sets.",
+   "concept": "No diversity, no ensemble gain.",
+   "source": "Lec 4.1, slides 38, 39",
+   "options": [
+    "Five trees are too few for any ensemble to be effective",
+    "Identical models make the same errors, so there is nothing to cancel out",
+    "Decision trees cannot be combined by majority voting",
+    "The ensemble would have a higher bias than the single tree"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "Small ensembles can help if their errors differ.",
+    null,
+    "Trees are the most common base learner in ensembles.",
+    "Copies have the same bias as the original; they simply add nothing."
+   ]
+  },
+  {
+   "id": "L4-B13-5",
+   "lesson": 4,
+   "block": 13,
+   "topic": "Choosing an ensemble",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "Team A has 2 million loan applications with many categorical columns (branch, product type) and wants the most accurate model possible. Team B has 300 clinic patients and needs a model doctors can explain line by line. What fits each team?",
+   "explanation": "Boosting is for performance, and the library table points to LightGBM for large data and CatBoost for categorical data. For explanation, the lecture says trees are for interpretability.",
+   "concept": "Choose by data size, data type and the need to explain.",
+   "source": "Lec 4.1, slides 57, 61",
+   "options": [
+    "A: a boosting library such as CatBoost or LightGBM; B: a single shallow decision tree",
+    "A: a single decision tree for speed; B: stacking several models for accuracy",
+    "Both teams: AdaBoost with fully grown decision trees as the learners",
+    "A: KNN using all two million rows; B: XGBoost tuned for top accuracy"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "This reverses the needs: A wants accuracy, B wants interpretability.",
+    "AdaBoost uses stumps, and a large ensemble is hard to explain to doctors.",
+    "KNN is slow at prediction on huge data, and XGBoost is hard to explain."
    ]
   },
   {
@@ -6212,6 +7428,251 @@
    ]
   },
   {
+   "id": "L5-B11-1",
+   "lesson": 5,
+   "block": 11,
+   "topic": "Assumptions of linear regression",
+   "type": "match",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "If an assumption of linear regression fails, what goes wrong? Match each assumption or warning to its consequence.",
+   "explanation": "These are the lecture's four L-I-N-E conditions plus the multicollinearity warning, each with what happens when it fails.",
+   "concept": "Each assumption protects a different part of the result.",
+   "source": "Lec 5.1, slide 7",
+   "pairs": [
+    {
+     "left": "Linearity",
+     "right": "The model underfits and the errors follow a pattern"
+    },
+    {
+     "left": "Independence",
+     "right": "The model looks better than it really is"
+    },
+    {
+     "left": "Normality of errors",
+     "right": "p-values and confidence intervals cannot be trusted"
+    },
+    {
+     "left": "Equal variance",
+     "right": "The model is accurate for some values and poor for others"
+    },
+    {
+     "left": "Multicollinearity",
+     "right": "The weights become unstable and lose their meaning"
+    }
+   ]
+  },
+  {
+   "id": "L5-B11-2",
+   "lesson": 5,
+   "block": 11,
+   "topic": "Assumptions of linear regression",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "In the lecture's L-I-N-E memory aid, the E stands for 'Equal variance': the spread of the residuals stays the same across the range.",
+   "explanation": "True. L is linearity, I independence, N normality of errors and E equal variance. Multicollinearity is listed separately as a warning.",
+   "concept": "L-I-N-E: linearity, independence, normality, equal variance.",
+   "source": "Lec 5.1, slide 7",
+   "answer": true
+  },
+  {
+   "id": "L5-B11-3",
+   "lesson": 5,
+   "block": 11,
+   "topic": "Assumptions of linear regression",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "Which assumption states that one row of the data tells you nothing about another row?",
+   "explanation": "Independence is the I in L-I-N-E. If it fails, the model looks better than it really is.",
+   "concept": "Independence is about rows, not features.",
+   "source": "Lec 5.1, slide 7",
+   "options": [
+    "Linearity",
+    "Normality of errors",
+    "Equal variance",
+    "Independence"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "Linearity is about each feature moving the target in a straight line.",
+    "Normality is about residuals being spread symmetrically around zero.",
+    "Equal variance is about residual spread staying the same across the range.",
+    null
+   ]
+  },
+  {
+   "id": "L5-B11-4",
+   "lesson": 5,
+   "block": 11,
+   "topic": "Assumptions of linear regression",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "analysis",
+   "question": "A model predicts one shop's daily sales. Its residuals show that today's error is strongly related to yesterday's error. Which assumption is violated, and what is the risk?",
+   "explanation": "Consecutive rows that carry information about each other break independence, which the lecture says makes the model look better than it really is.",
+   "concept": "Linked rows violate independence.",
+   "source": "Lec 5.1, slide 7",
+   "options": [
+    "Linearity; the model will underfit the curve",
+    "Normality of errors; predictions will be biased upward",
+    "Independence; the model will look better than it really is",
+    "Equal variance; errors will grow as sales grow"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "The pattern is between consecutive rows, not a curved feature relationship.",
+    "Related errors break independence; normality is about the shape of the error distribution.",
+    null,
+    "That would be a funnel shape, not errors linked from one day to the next."
+   ]
+  },
+  {
+   "id": "L5-B11-5",
+   "lesson": 5,
+   "block": 11,
+   "topic": "Assumptions of linear regression",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A house-price model uses area in m², the same area in ft², and number of rooms. Between training runs the two area coefficients swing wildly and one even turns negative. Its residual plot also fans out for expensive houses. Which two problems are present?",
+   "explanation": "Two columns carrying the same information make the weights unstable and meaningless (multicollinearity). A funnel-shaped residual plot means heteroscedasticity: the model is accurate for cheaper houses and poor for expensive ones.",
+   "concept": "Unstable weights mean duplicated features; a funnel means unequal variance.",
+   "source": "Lec 5.1, slides 7, 21",
+   "options": [
+    "Non-linearity, and too few features in the model overall",
+    "Dependent rows, plus residuals that are perfectly normal",
+    "Underfitting, plus an intercept that is much too large",
+    "Multicollinearity, and unequal residual variance"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "A fan shape signals unequal variance; a U-shape would signal non-linearity.",
+    "Nothing suggests linked rows, and normal residuals would not be a problem.",
+    "Swinging coefficients point to duplicated information, not underfitting.",
+    null
+   ]
+  },
+  {
+   "id": "L5-B12-1",
+   "lesson": 5,
+   "block": 12,
+   "topic": "The diabetes dataset",
+   "type": "tf",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "In the diabetes dataset, the progression target lies between 0 and 1 because it is standardised like the features.",
+   "explanation": "False. The features are standardised, but the target is a raw progression score from about 25 to 346.",
+   "concept": "Scaled inputs, unscaled target.",
+   "source": "Lec 5.1, slides 10, 11",
+   "answer": false
+  },
+  {
+   "id": "L5-B12-2",
+   "lesson": 5,
+   "block": 12,
+   "topic": "Interpreting coefficients",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "application",
+   "question": "A simple model on the diabetes data has intercept ≈ 152 and slope ≈ 949 for scaled BMI. What is the predicted progression for a patient whose scaled BMI is 0.05?",
+   "explanation": "ŷ = 152 + 949 × 0.05 = 152 + 47.45 ≈ 199.",
+   "concept": "Prediction = intercept + slope × feature.",
+   "source": "Lec 5.1, slides 5, 15",
+   "options": [
+    "About 152",
+    "About 199",
+    "About 1,101",
+    "About 47"
+   ],
+   "answer": 1,
+   "whyWrong": [
+    "This uses only the intercept and ignores the patient's BMI.",
+    null,
+    "This adds the whole slope, as if scaled BMI were 1.",
+    "This uses the slope term but forgets to add the intercept."
+   ]
+  },
+  {
+   "id": "L5-B12-3",
+   "lesson": 5,
+   "block": 12,
+   "topic": "The diabetes dataset",
+   "type": "mcq",
+   "difficulty": "easy",
+   "skill": "recall",
+   "question": "According to the lecture, which features do tree-based models rank as the most influential for diabetes progression?",
+   "explanation": "The feature-importance slide says tree-based models rank BMI and S5 highest, while features like gender have near-zero importance.",
+   "concept": "BMI and S5 dominate; gender contributes little.",
+   "source": "Lec 5.1, slide 35",
+   "options": [
+    "Age and sex",
+    "Blood pressure and S1",
+    "BMI and S5",
+    "S2 and S3"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "Sex (gender) is mentioned as having near-zero importance.",
+    "These are not the two features the lecture names as most influential.",
+    null,
+    "These serum measurements are not the ones the lecture highlights."
+   ]
+  },
+  {
+   "id": "L5-B12-4",
+   "lesson": 5,
+   "block": 12,
+   "topic": "Interpreting coefficients",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "The lecture says the upward BMI-progression trend shows correlation, not proof of cause. Why?",
+   "explanation": "A regression slope measures association. Confounding variables (the lecture mentions blood pressure versus BMI) can drive both. Adding predictors helps account for confounders but still does not prove cause.",
+   "concept": "A fitted slope is association, not causation.",
+   "source": "Lec 5.1, slides 15, 16",
+   "options": [
+    "Other factors linked to BMI could explain part of the trend",
+    "The slope of 949 is too large to be a causal effect",
+    "Correlation can only be measured in classification tasks",
+    "BMI is standardised, so its coefficient cannot be read at all"
+   ],
+   "answer": 0,
+   "whyWrong": [
+    null,
+    "Size does not decide causality.",
+    "Correlation applies to numeric targets as well.",
+    "Scaling changes the units, but the coefficient can still be read."
+   ]
+  },
+  {
+   "id": "L5-B12-5",
+   "lesson": 5,
+   "block": 12,
+   "topic": "Using the test set",
+   "type": "mcq",
+   "difficulty": "hard",
+   "skill": "scenario",
+   "question": "A researcher using the 442-patient diabetes data makes one 80/20 split. They try ten values of max_depth, check test R² after each, and report the best test R² of 0.52. They also drop sex because its importance is near zero. What is the main flaw?",
+   "explanation": "Hyperparameters must be tuned on validation folds only, and the test set touched once at the end. With only 442 patients, K-fold cross-validation gives a far more stable estimate than one hold-out split.",
+   "concept": "Never tune on the test set.",
+   "source": "Lec 5.1, slides 13, 24, 35",
+   "options": [
+    "Dropping a feature with near-zero importance invalidates the whole model",
+    "R² is not a valid metric for judging any regression model at all",
+    "Tuning on the test set inflates 0.52; tune with K-fold CV, then test once",
+    "An 80/20 split is not allowed for a dataset of this size at all"
+   ],
+   "answer": 2,
+   "whyWrong": [
+    "The lecture says such features can often be dropped without losing accuracy.",
+    "R² is one of the lecture's standard regression metrics.",
+    null,
+    "The lecture calls 80/20 standard practice for medium-sized datasets."
+   ]
+  },
+  {
    "id": "L5-X1",
    "lesson": 5,
    "block": 0,
@@ -6301,6 +7762,32 @@
     "MSE is in squared units; RMSE returns to the target's units.",
     null,
     "R² is a separate metric; the choice of loss does not guarantee a higher R²."
+   ]
+  },
+  {
+   "id": "L5-X5",
+   "lesson": 5,
+   "block": 0,
+   "topic": "Assumptions of linear regression",
+   "type": "mcq",
+   "difficulty": "medium",
+   "skill": "understanding",
+   "question": "Why does the lecture treat multicollinearity as a warning about the weights rather than a problem with the errors?",
+   "explanation": "When two features nearly duplicate each other, many different weight combinations fit equally well, so the individual weights become unstable and lose their meaning even if overall predictions are fine.",
+   "concept": "Multicollinearity confuses the weights, not necessarily the predictions.",
+   "source": "Lec 5.1, slide 7",
+   "options": [
+    "Because multicollinearity makes the residuals grow larger for high values",
+    "Because multicollinearity only occurs in classification, not regression",
+    "Because multicollinearity makes the prediction for every row exactly zero",
+    "Near-duplicate features make it unclear how to split credit between weights"
+   ],
+   "answer": 3,
+   "whyWrong": [
+    "That describes unequal variance, which is about the errors.",
+    "It is a regression issue the lecture lists right next to L-I-N-E.",
+    "Predictions can still be reasonable; it is the individual weights that become unstable.",
+    null
    ]
   }
  ]

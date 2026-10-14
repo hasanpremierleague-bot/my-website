@@ -1,6 +1,6 @@
 # Midterm Mastery (IT7101)
 
-A study site with 268 practice questions from Lectures 1 to 5.1. It is one self-contained page: `index.html` holds the site and the full question bank. It needs no server code, database or API key. `questions.json` is a copy of the bank for reference; the site does not need it.
+A study site with 330 practice questions from Lectures 1 to 5.1. It is one self-contained page: `index.html` holds the site and the full question bank. It needs no server code, database or API key. `questions.json` is a copy of the bank for reference; the site does not need it.
 
 ## Put it online with GitHub Pages (free)
 
