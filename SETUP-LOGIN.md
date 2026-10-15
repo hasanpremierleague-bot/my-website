@@ -11,12 +11,12 @@ Until you do this, the site works exactly as before and saves progress on each p
 
 ## 2. Switch on email sign-in
 
-1. In the left menu: **Build → Authentication → Get started**.
+1. In the left menu: **Security → Authentication → Get started** (or search "Authentication" in *Search for products*).
 2. Open the **Sign-in method** tab, choose **Email/Password**, switch on the first toggle, and **Save**.
 
 ## 3. Create the database
 
-1. Left menu: **Build → Firestore Database → Create database**.
+1. Left menu: **Databases and storage → Firestore Database → Create database** (or search "Firestore").
 2. Pick any location near you, choose **Start in production mode**, then **Create**.
 3. Open the **Rules** tab, replace everything with the rules below, and tap **Publish**. These rules let each person read and write only their own progress.
 
