@@ -5,13 +5,15 @@ A study site with 330 practice questions from Lectures 1 to 5.1. It is one self-
 ## Put it online with GitHub Pages (free)
 
 1. Sign in at github.com and click **New repository**. Name it, for example, `midterm-mastery`, and make it **Public** (Pages on a free account needs a public repo).
-2. On the new repo page, click **uploading an existing file**. Drag in every file from this folder (`index.html`, `questions.json`, `README.md`, `.nojekyll`) and click **Commit changes**.
+2. On the new repo page, click **uploading an existing file**. Drag in every file from this folder (`index.html`, `firebase-config.js`, `questions.json`, `README.md`, `SETUP-LOGIN.md`, `.nojekyll`) and click **Commit changes**.
 3. Go to **Settings → Pages**. Under *Build and deployment*, set Source to **Deploy from a branch**, Branch to **main** and folder to **/ (root)**, then **Save**.
 4. Wait a minute or two, then refresh that page. It shows your link, like `https://YOUR-NAME.github.io/midterm-mastery/`. Open it on your phone, and use **Add to Home Screen** to get an app icon.
 
 Any static host works the same way: Netlify Drop (drag the folder onto app.netlify.com/drop), Cloudflare Pages, or Vercel.
 
 ## How progress is saved
+
+- **Sign-in (optional):** follow `SETUP-LOGIN.md` once to switch on email-and-password sign-in. Then your progress follows you to any phone where you sign in.
 
 - Every answer, flag and unfinished exam is saved automatically in the browser you use, so it survives closing the tab, reloading or restarting the phone.
 - Progress is per browser and per device: the phone and the laptop each keep their own.

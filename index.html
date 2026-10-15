@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="IT7101 mid-term practice: 330 questions with lesson practice, exams, results and review.">
 <style>*,*::before,*::after{box-sizing:border-box}body{margin:0;font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<script src="firebase-config.js"></script>
 <title>Midterm Mastery</title>
 </head>
 <body>
@@ -151,6 +152,9 @@ legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
 .seg input { accent-color: var(--accent); }
 .seg label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
 input[type="number"] { width: 90px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.field { display: grid; gap: 4px; }
+.field input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; }
+.field input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); max-width: 100%; }
 
 /* table */
@@ -275,6 +279,7 @@ if (STANDALONE && navigator.storage && navigator.storage.persist) { try { naviga
 let store = { v: 1, updatedAt: 0, progress: {}, flags: {}, session: null, lastView: "dashboard", theme: null };
 try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.v === 1) store = Object.assign(store, s); } catch (e) {}
 let remote = null, syncTimer = null;
+const ACCOUNT = { enabled: false, ready: false, user: null, busy: false, msg: "", err: false, mode: "in", lastSync: 0, syncErr: "" };
 function save(touch = true) {
   if (touch) store.updatedAt = Date.now();
   try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
@@ -282,10 +287,53 @@ function save(touch = true) {
 }
 async function pushRemote() {
   if (!remote) return;
-  try { await remote.doc.set({ blob: JSON.stringify(store), updatedAt: store.updatedAt }); setSync("Saved to your account"); }
-  catch (e) { setSync("Saved in this browser (account sync unavailable)"); }
+  try {
+    await remote.doc.set({ blob: JSON.stringify(store), updatedAt: store.updatedAt });
+    ACCOUNT.lastSync = Date.now(); ACCOUNT.syncErr = ""; setSync("Synced to your account");
+  } catch (e) { ACCOUNT.syncErr = syncError(e); setSync(ACCOUNT.syncErr); }
 }
 function setSync(t) { const el = document.getElementById("sync"); if (el) el.textContent = t; }
+// Combine two copies of the saved state (this device and the account) without losing answers:
+// for each question keep the more recent record; flags and the unfinished session come from
+// whichever copy changed last, except that a session in progress on this device is never replaced.
+function mergeStores(local, incoming) {
+  const out = Object.assign({}, local);
+  const lp = local.progress || {}, ip = incoming.progress || {};
+  const progress = Object.assign({}, lp);
+  for (const id in ip) {
+    const a = lp[id], b = ip[id];
+    if (!a || (b.at || 0) > (a.at || 0) || ((b.at || 0) === (a.at || 0) && (b.a || 0) > (a.a || 0))) progress[id] = b;
+  }
+  out.resetAt = Math.max(local.resetAt || 0, incoming.resetAt || 0);
+  for (const id in progress) if ((progress[id].at || 0) <= out.resetAt) delete progress[id];
+  out.progress = progress;
+  const incomingNewer = (incoming.updatedAt || 0) > (local.updatedAt || 0);
+  if (incomingNewer) out.flags = incoming.flags || {};
+  const localLive = local.session && !local.session.submitted;
+  if (!localLive && incomingNewer) out.session = incoming.session || null;
+  out.updatedAt = Math.max(local.updatedAt || 0, incoming.updatedAt || 0);
+  out.theme = local.theme; out.lastView = local.lastView;
+  return out;
+}
+let pulling = false;
+async function pullRemote() {
+  if (!remote || pulling) return;
+  pulling = true;
+  try {
+    const snap = await remote.doc.get();
+    const data = snap && snap.exists ? snap.data() : null;
+    let incoming = null;
+    try { incoming = data && data.blob ? JSON.parse(data.blob) : null; } catch (e) {}
+    if (incoming && incoming.v === 1) {
+      const before = JSON.stringify([store.progress, store.flags, store.session]);
+      store = mergeStores(store, incoming);
+      try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+      if (JSON.stringify([store.progress, store.flags, store.session]) !== before && view.name !== "session") render();
+    }
+    await pushRemote();
+  } catch (e) { setSync(syncError(e)); }
+  finally { pulling = false; }
+}
 async function connectRemote() {
   try {
     if (!window.claude || !window.claude.use) return;
@@ -293,27 +341,100 @@ async function connectRemote() {
     if (!db || !user) return;
     const id = await user.id();
     if (!id) return;
-    const doc = db.doc("data/users/" + id + "/state");
-    remote = { doc };
-    const snap = await doc.get();
-    const data = snap && snap.exists ? snap.data() : null;
-    if (data && data.blob && (data.updatedAt || 0) > (store.updatedAt || 0)) {
-      const incoming = JSON.parse(data.blob);
-      if (incoming && incoming.v === 1) {
-        const inSession = view.name === "session";
-        const keepSession = store.session;
-        store = Object.assign(store, incoming);
-        if (inSession) store.session = keepSession;
-        try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
-        applyTheme();
-        if (!inSession) render();
-      }
-      setSync("Saved to your account");
-    } else {
-      setSync("Saved to your account");
-      pushRemote();
-    }
+    remote = { doc: db.doc("data/users/" + id + "/state"), label: "your account" };
+    await pullRemote();
   } catch (e) { remote = null; }
+}
+
+// ---------- optional sign-in (standalone site with a Firebase project) ----------
+// The hosted copy can include firebase-config.js, which sets window.FIREBASE_CONFIG. Without it the
+// sign-in card stays hidden and progress is saved in this browser only.
+const FB_VERSION = "10.12.2";
+function syncError(e) {
+  const code = (e && e.code) || "";
+  if (code.includes("permission-denied")) return "Sync blocked: check the Firestore rules";
+  if (code.includes("unavailable") || code.includes("network")) return "Offline: saved on this phone, will sync later";
+  return "Saved on this phone (sync failed)";
+}
+function loadScript(src) {
+  return new Promise((ok, fail) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => fail(new Error("load " + src)); document.head.appendChild(s); });
+}
+async function connectFirebase() {
+  const cfg = window.FIREBASE_CONFIG;
+  if (!STANDALONE || !cfg || !cfg.apiKey || !cfg.projectId) return;
+  ACCOUNT.enabled = true; render();
+  try {
+    const base = "https://www.gstatic.com/firebasejs/" + FB_VERSION + "/";
+    await loadScript(base + "firebase-app-compat.js");
+    await Promise.all([loadScript(base + "firebase-auth-compat.js"), loadScript(base + "firebase-firestore-compat.js")]);
+    const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+    ACCOUNT.auth = app.auth(); ACCOUNT.db = app.firestore();
+    await ACCOUNT.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+    ACCOUNT.auth.onAuthStateChanged(async (u) => {
+      ACCOUNT.ready = true; ACCOUNT.user = u;
+      if (u) {
+        remote = { doc: ACCOUNT.db.collection("users").doc(u.uid), label: u.email };
+        setSync("Syncing…");
+        await pullRemote();
+      } else { remote = null; setSync("Saved in this browser"); }
+      if (view.name !== "session") render();
+    });
+  } catch (e) {
+    ACCOUNT.ready = true; ACCOUNT.msg = "Sign-in could not load. Check your connection and reload the page."; ACCOUNT.err = true; render();
+  }
+}
+function authMessage(e) {
+  const code = (e && e.code) || "";
+  const m = {
+    "auth/invalid-email": "That email address doesn't look right.",
+    "auth/missing-password": "Enter your password.",
+    "auth/invalid-credential": "Wrong email or password.",
+    "auth/wrong-password": "Wrong email or password.",
+    "auth/user-not-found": "No account with that email. Choose 'Create account' instead.",
+    "auth/email-already-in-use": "An account with that email already exists. Sign in instead.",
+    "auth/weak-password": "Use a password of at least 6 characters.",
+    "auth/too-many-requests": "Too many attempts. Wait a few minutes and try again.",
+    "auth/network-request-failed": "No connection. Check your internet and try again.",
+    "auth/operation-not-allowed": "Email sign-in is not switched on in the Firebase project yet.",
+  };
+  return m[code] || "Something went wrong" + (code ? " (" + code + ")" : "") + ".";
+}
+async function accountAction(kind) {
+  if (!ACCOUNT.auth || ACCOUNT.busy) return;
+  const email = (document.getElementById("acEmail")?.value || "").trim();
+  const pass = document.getElementById("acPass")?.value || "";
+  ACCOUNT.busy = true; ACCOUNT.msg = ""; ACCOUNT.err = false; render();
+  try {
+    if (kind === "in") await ACCOUNT.auth.signInWithEmailAndPassword(email, pass);
+    else if (kind === "up") await ACCOUNT.auth.createUserWithEmailAndPassword(email, pass);
+    else if (kind === "reset") {
+      if (!email) throw { code: "auth/invalid-email" };
+      await ACCOUNT.auth.sendPasswordResetEmail(email);
+      ACCOUNT.msg = "If an account exists for " + email + ", a reset link is on its way. Check spam too.";
+    } else if (kind === "out") { await pushRemote(); await ACCOUNT.auth.signOut(); toast("Signed out. Progress stays on this phone."); }
+  } catch (e) { ACCOUNT.msg = authMessage(e); ACCOUNT.err = true; }
+  ACCOUNT.busy = false; render();
+  if (ACCOUNT.err) { const el = document.getElementById("acEmail"); if (el) el.value = email; }
+}
+function renderAccountCard() {
+  if (!ACCOUNT.enabled) return "";
+  const A = ACCOUNT;
+  const note = A.msg ? `<p class="small" role="${A.err ? "alert" : "status"}" style="color:var(${A.err ? "--bad" : "--good"})">${esc(A.msg)}</p>` : "";
+  if (!A.ready) return `<section class="section"><div class="card"><h3>Your account</h3><p class="small muted">Loading sign-in…</p></div></section>`;
+  if (A.user) return `<section class="section"><div class="card row between">
+      <div class="stack" style="gap:4px;min-width:0"><h3>Signed in</h3><p class="small muted" style="overflow-wrap:anywhere">${esc(A.user.email || "")} · progress syncs to every phone where you sign in with this account.</p><p class="small" style="color:var(${A.syncErr ? "--bad" : "--ink-3"})">${A.syncErr ? esc(A.syncErr) : A.lastSync ? "Last synced " + new Date(A.lastSync).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Syncing…"}</p>${note}</div>
+      <button class="btn" data-act="acOut" ${A.busy ? "disabled" : ""}>Sign out</button></div></section>`;
+  const up = A.mode === "up";
+  return `<section class="section"><form class="card stack" id="acForm" style="gap:12px" autocomplete="on">
+      <div class="stack" style="gap:4px"><h3>${up ? "Create an account" : "Sign in to sync your progress"}</h3>
+        <p class="small muted">${up ? "Use any email and a password of at least 6 characters. Your progress on this phone is kept and uploaded." : "Sign in with the same email on any phone and your progress follows you."}</p></div>
+      <label class="field"><span class="small">Email</span><input type="email" id="acEmail" autocomplete="email" inputmode="email" required></label>
+      <label class="field"><span class="small">Password</span><input type="password" id="acPass" autocomplete="${up ? "new-password" : "current-password"}" minlength="6" required></label>
+      ${note}
+      <div class="row"><button class="btn primary" type="submit" ${A.busy ? "disabled" : ""}>${A.busy ? "Please wait…" : up ? "Create account" : "Sign in"}</button>
+        <button class="btn ghost" type="button" data-act="acMode">${up ? "I already have an account" : "Create account"}</button>
+        ${up ? "" : `<button class="linkish small" type="button" data-act="acReset">Forgot password?</button>`}</div>
+    </form></section>`;
 }
 
 // ---------- progress ----------
@@ -524,6 +645,7 @@ function renderDashboard() {
     ${resume}
   </section>
 
+  ${renderAccountCard()}
   <section class="section">
     <div class="row between"><h2>Your progress</h2><button class="btn ghost sm" data-act="review">Review &amp; mastery</button></div>
     <div class="card stack">
@@ -955,7 +1077,10 @@ document.addEventListener("click", (e) => {
     case "lastResults": nav({ name: "results" }); break;
     case "discard": confirmBox({ title: "Discard this session?", body: "Your answers in the unfinished session will be lost. Progress already recorded stays.", ok: "Discard", danger: true, onOk: () => { store.session = null; save(); render(); } }); break;
     case "reset": confirmBox({ title: "Reset all progress?", body: "This deletes every recorded attempt, flag and unfinished session. It cannot be undone.", ok: "Reset everything", danger: true,
-      onOk: () => { store.progress = {}; store.flags = {}; store.session = null; save(); render(); toast("Progress reset."); } }); break;
+      onOk: () => { store.progress = {}; store.flags = {}; store.session = null; store.resetAt = Date.now(); save(); render(); toast("Progress reset."); } }); break;
+    case "acOut": accountAction("out"); break;
+    case "acReset": accountAction("reset"); break;
+    case "acMode": ACCOUNT.mode = ACCOUNT.mode === "up" ? "in" : "up"; ACCOUNT.msg = ""; render(); break;
     case "exportProg": {
       const blob = new Blob([JSON.stringify(Object.assign({}, store, { exportedAt: new Date().toISOString() }))], { type: "application/json" });
       const url = URL.createObjectURL(blob), link = document.createElement("a");
@@ -1041,6 +1166,10 @@ document.addEventListener("change", (e) => {
   else if (a === "browseTopic") { browseF.topic = t.value; render(); }
   else if (a === "browseType") { browseF.type = t.value; render(); }
 });
+document.addEventListener("submit", (e) => {
+  if (e.target.id === "acForm") { e.preventDefault(); accountAction(ACCOUNT.mode === "up" ? "up" : "in"); }
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden && remote) pullRemote(); });
 document.addEventListener("input", (e) => { if (e.target.closest("#builder") && e.target.type === "number") updatePreview(); });
 document.addEventListener("keydown", (e) => {
   if (view.name !== "session" || document.getElementById("layer").innerHTML) return;
@@ -1062,6 +1191,7 @@ applyTheme();
 if (store.session && !store.session.submitted && store.lastView === "session") view = { name: "session" };
 render();
 connectRemote();
+connectFirebase();
 </script>
 
 </body>
