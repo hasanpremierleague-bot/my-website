@@ -2306,23 +2306,23 @@
    "topic": "Feature scaling",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "A feature has mean 50 and standard deviation 10. What is the standardised value of an observation equal to 70?",
-   "explanation": "z = (70 - 50) / 10 = 2. The value is two standard deviations above the mean.",
-   "concept": "z = (x - mean) / standard deviation.",
+   "skill": "recall",
+   "question": "After standardisation, an observation has a value of +2. What does that tell you?",
+   "explanation": "z = (x − μ) / σ measures how many standard deviations a value sits above or below the mean. +2 means two standard deviations above.",
+   "concept": "A z-score is distance from the mean in standard deviations.",
    "source": "Lec 2.1, slide 56",
    "options": [
-    "2",
-    "20",
-    "0.7",
-    "1.4"
+    "It is twice as large as the feature's mean value",
+    "It is the second-largest value in the whole column",
+    "It is two standard deviations above the feature's mean",
+    "It lies outside the 0-to-1 range, so it is an error"
    ],
-   "answer": 0,
+   "answer": 2,
    "whyWrong": [
+    "A z-score counts standard deviations from the mean, not multiples of the mean.",
+    "Standardisation does not rank values.",
     null,
-    "20 is the raw difference from the mean; it still has to be divided by the standard deviation.",
-    "This divides the value by 100, which is not the z-score formula.",
-    "This divides 70 by 50, which ignores both the mean subtraction and the standard deviation."
+    "Standardised values are not limited to 0-1; that is min-max scaling."
    ]
   },
   {
@@ -3265,22 +3265,22 @@
    "type": "mcq",
    "difficulty": "easy",
    "skill": "application",
-   "question": "A salesperson sold 40 units in quarter 1 and 52 units in quarter 2. What is the value of a 'progress' feature defined as Q2 - Q1, and what does its sign suggest?",
-   "explanation": "A positive difference suggests improvement, negative suggests decline and zero suggests stability.",
-   "concept": "A difference feature captures momentum.",
+   "question": "A 'progress' feature is defined as Q2 sales − Q1 sales. What does a negative value indicate?",
+   "explanation": "Like grade_progress = G2 − G1, the sign shows the direction of change: positive means improvement, negative means decline, zero means stability.",
+   "concept": "The sign of a difference feature shows direction.",
    "source": "Lec 3.1, slide 22",
    "options": [
-    "-12, suggesting decline",
-    "+12, suggesting improvement",
-    "92, suggesting strong performance",
-    "46, suggesting average performance"
+    "Sales declined from Q1 to Q2",
+    "Sales improved from Q1 to Q2",
+    "Sales stayed exactly the same in both quarters",
+    "The data contains an error, because features cannot be negative"
    ],
-   "answer": 1,
+   "answer": 0,
    "whyWrong": [
-    "Q2 - Q1 = 52 - 40, which is positive.",
     null,
-    "92 is the sum, not the difference.",
-    "46 is the average of the two quarters."
+    "Improvement gives a positive difference.",
+    "No change gives zero.",
+    "Difference features can legitimately be negative."
    ]
   },
   {
@@ -3982,23 +3982,23 @@
    "topic": "Explained variance",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "PCA on five standardised features gives explained variance ratios of 0.55, 0.25, 0.12, 0.05 and 0.03. What is the smallest number of components that explains at least 90% of the variance?",
-   "explanation": "Cumulative variance: 0.55, then 0.80, then 0.92. Three components are the first to pass 90%.",
-   "concept": "Add explained variance ratios until the cumulative total reaches the target.",
-   "source": "Lec 3.1, slide 61",
+   "skill": "recall",
+   "question": "How does the lecture suggest choosing the number of principal components to keep?",
+   "explanation": "The explained variance ratio and the scree plot show how much each component adds. Choose k to balance compactness against information loss.",
+   "concept": "Choose k from explained variance and the task's needs.",
+   "source": "Lec 3.1, slide 56, 61",
    "options": [
-    "3",
-    "2",
-    "4",
-    "1"
+    "Always keep exactly two components so the result can be plotted",
+    "Keep enough to explain a large share of variance; the threshold depends on the task",
+    "Keep every component, because dropping any loses all the information",
+    "Keep only the component with the smallest explained variance"
    ],
-   "answer": 0,
+   "answer": 1,
    "whyWrong": [
+    "Two suits visualisation, but the lecture ties k to explained variance and the task.",
     null,
-    "The first two components explain 0.55 + 0.25 = 0.80, which is below 0.90.",
-    "Three components already reach 0.92, so four are not the minimum.",
-    "The first component explains only 0.55."
+    "Keeping all components gives no compression.",
+    "The smallest component carries the least information."
    ]
   },
   {
@@ -4403,23 +4403,23 @@
    "topic": "Difference features",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "For a student with G1 = 12 and G2 = 9, what is grade_progress, defined as G2 − G1?",
-   "explanation": "grade_progress = 9 − 12 = −3. A negative value indicates a decline between the first and second periods.",
-   "concept": "Sign shows direction: negative means decline.",
-   "source": "Lec 3.1, slide 22",
+   "skill": "recall",
+   "question": "In the Student Performance example, what does a positive grade_progress (G2 − G1) indicate?",
+   "explanation": "grade_progress captures academic momentum: positive means improvement, negative means decline, zero means stability.",
+   "concept": "Positive progress means improvement.",
+   "source": "Lec 3.1, slide 22, 25",
    "options": [
-    "−3",
-    "3",
-    "10.5",
-    "21"
+    "The student's grades declined between the two periods",
+    "The student's final grade G3 is certain to be high",
+    "The student improved between the first and second periods",
+    "The student had the same grade in both periods"
    ],
-   "answer": 0,
+   "answer": 2,
    "whyWrong": [
+    "Decline gives a negative value.",
+    "Progress suggests momentum; it does not guarantee G3.",
     null,
-    "This reverses the subtraction (G1 − G2).",
-    "This is avg_early_grade, (G1 + G2) / 2.",
-    "This is the sum G1 + G2."
+    "Equal grades give zero."
    ]
   },
   {
@@ -4429,22 +4429,22 @@
    "topic": "Interaction features",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "A student has studytime = 3 and G2 = 14. What is study_effect, defined as studytime × G2?",
-   "explanation": "study_effect = 3 × 14 = 42. The interaction lets a linear model represent that the effect of study time can depend on current achievement.",
-   "concept": "An interaction is a product of two features.",
-   "source": "Lec 3.1, slides 28, 30",
+   "skill": "recall",
+   "question": "What does the interaction feature study_effect = studytime × G2 allow a linear model to capture?",
+   "explanation": "An interaction feature models the idea that one variable's effect depends on another, letting a linear model capture conditional relationships.",
+   "concept": "Interactions model 'it depends'.",
+   "source": "Lec 3.1, slide 28",
    "options": [
-    "17",
-    "11",
-    "4.67",
-    "42"
+    "That study time and G2 are the same variable measured twice",
+    "That study time has no effect on the final grade at all",
+    "That G2 must be one-hot encoded before training",
+    "That study time's effect can depend on the current grade"
    ],
    "answer": 3,
    "whyWrong": [
-    "This adds the two values instead of multiplying them.",
-    "This subtracts studytime from G2.",
-    "This divides G2 by studytime, which would be a ratio feature.",
+    "They are different variables; the product links them.",
+    "The feature exists to model an effect, not remove it.",
+    "G2 is numeric; the interaction does not require encoding.",
     null
    ]
   },
@@ -4496,22 +4496,22 @@
    "type": "mcq",
    "difficulty": "hard",
    "skill": "scenario",
-   "question": "After standardising G1, G2, studytime, failures and absences, PCA with 2 components prints explained_variance_ratio_ = [0.48, 0.21]. PC1's loadings are G1 0.60, G2 0.60, studytime 0.20, failures −0.40, absences −0.10. A colleague says: 'PC1 is the students' ability, and these two components keep all the information.' What is the best response?",
-   "explanation": "Read PC1 from its largest-magnitude loadings: high early grades and few failures. The lecture warns against assuming PC1 is 'ability' without checking, and against treating loadings as causal. 0.48 + 0.21 = 0.69, so about 31% of the variance is discarded.",
-   "concept": "Interpret components from loadings, and add up explained variance.",
-   "source": "Lec 3.1, slides 58, 59, 61, 62",
+   "question": "PCA on standardised G1, G2, studytime, failures and absences gives PC1 with large positive loadings on G1 and G2, a moderate negative loading on failures, and a near-zero loading on absences. A colleague says: 'PC1 is proven to be student ability, and it shows failures cause lower grades.' What is the best response?",
+   "explanation": "Read PC1 from its largest loadings: strong early grades and few failures. The lecture warns that PC1 should not be assumed to be 'ability' without checking, and that loadings summarise covariance, not causal effects.",
+   "concept": "Interpret components from loadings; never read them as causes.",
+   "source": "Lec 3.1, slides 58, 59, 62",
    "options": [
-    "The colleague is right, because PC1 has the largest explained variance ratio of the two",
-    "PC1 shows that failures cause lower grades, because its failures loading is negative",
-    "Absences matters most, because its loading of −0.10 is the closest one to zero",
-    "PC1 tracks strong grades and few failures, isn't proven 'ability', and the two keep only ~69% of variance"
+    "PC1 tracks strong grades and few failures, but it isn't proven 'ability' and loadings aren't causal",
+    "The colleague is right, because PC1 always captures the most important real-world concept",
+    "PC1 mainly measures absences, because absences appears in the component",
+    "PC1 is meaningless, because components can never be interpreted at all"
    ],
-   "answer": 3,
+   "answer": 0,
    "whyWrong": [
-    "A large ratio does not justify a label, and 0.48 + 0.21 is far from 100%.",
-    "Loadings summarise covariance structure; they are not causal effects.",
-    "Importance is read from large magnitudes; a near-zero loading means little contribution.",
-    null
+    null,
+    "The lecture warns against assuming what PC1 means without checking the loadings.",
+    "Its near-zero loading means absences contributes very little.",
+    "Components can be interpreted from their largest-magnitude loadings."
    ]
   },
   {
@@ -4737,22 +4737,22 @@
    "type": "mcq",
    "difficulty": "easy",
    "skill": "recall",
-   "question": "What is the output of the sigmoid function when its input z = 0?",
-   "explanation": "sigmoid(z) = 1 / (1 + e^-z). At z = 0, e^0 = 1, so the output is 1/2.",
-   "concept": "z = 0 sits exactly on the decision boundary.",
-   "source": "Lec 4.1, slide 9",
+   "question": "What range does the sigmoid function's output always fall in?",
+   "explanation": "The sigmoid squashes any real-valued z into (0, 1), so its output can be read as a probability.",
+   "concept": "Sigmoid turns a score into a probability.",
+   "source": "Lec 4.1, slide 8, 9",
    "options": [
-    "0",
-    "0.5",
-    "1",
-    "-1"
+    "Between −1 and 1",
+    "Any real number",
+    "Between 0 and 1",
+    "Only exactly 0 or exactly 1"
    ],
-   "answer": 1,
+   "answer": 2,
    "whyWrong": [
-    "The sigmoid approaches 0 only as z becomes very negative.",
+    "That range belongs to other functions; sigmoid outputs probabilities.",
+    "That is the input z, not the sigmoid output.",
     null,
-    "The sigmoid approaches 1 only as z becomes very positive.",
-    "The sigmoid's output never goes below 0."
+    "Sigmoid gives a smooth probability; the threshold makes the 0/1 decision."
    ]
   },
   {
@@ -4829,21 +4829,21 @@
    "type": "mcq",
    "difficulty": "hard",
    "skill": "scenario",
-   "question": "A fraud model computes z = 0.8 × x1 - 1.2 × x2 + 0.4. For a transaction with x1 = 2 and x2 = 1, a junior analyst writes two claims in a report. Which statement is correct?",
-   "explanation": "z = 0.8 × 2 - 1.2 × 1 + 0.4 = 0.8. sigmoid(0.8) = 1 / (1 + e^-0.8), about 0.69, which is above 0.5. Coefficients act on log-odds.",
-   "concept": "Compute z, apply the sigmoid, compare with 0.5, and interpret coefficients in log-odds.",
-   "source": "Lec 4.1, slide 9, Lec 4.1, slide 10, Lec 4.1, slide 12",
+   "question": "A fraud model outputs a probability of 0.69 for a transaction, with a 0.5 threshold. Feature x2 has coefficient −1.2. A junior analyst writes: 'It is not flagged, and each extra unit of x2 lowers the fraud probability by exactly 1.2.' What is correct?",
+   "explanation": "0.69 is above 0.5, so the transaction is flagged. Logistic regression models log-odds linearly, so a coefficient is the change in log-odds per unit change in the feature, not a fixed change in probability.",
+   "concept": "Coefficients act on log-odds; the threshold makes the decision.",
+   "source": "Lec 4.1, slides 9, 10, 12",
    "options": [
-    "z = 0.8, so the probability of fraud is exactly 0.8 and it is flagged",
-    "z = 0.8 is below 1, so the transaction is classified as not fraud",
-    "Raising x2 by 1 lowers the probability of fraud by exactly 1.2",
-    "p ≈ 0.69, so it is flagged as fraud; x2 lowers the log-odds by 1.2 per unit"
+    "It is not flagged, because 0.69 is below the 1.0 needed for certainty",
+    "It is flagged, and the probability really does fall by exactly 1.2 per unit",
+    "Nothing can be concluded, because logistic regression has no threshold",
+    "It is flagged as fraud; −1.2 is the change in log-odds per unit of x2, not in probability"
    ],
    "answer": 3,
    "whyWrong": [
-    "z is the log-odds, not the probability. The sigmoid must be applied.",
-    "The boundary is z = 0 (probability 0.5), not z = 1.",
-    "A probability cannot change by 1.2; the coefficient changes the log-odds.",
+    "The decision uses the 0.5 threshold, not certainty.",
+    "A probability cannot fall by 1.2; coefficients act on log-odds.",
+    "Classification applies a threshold to the probability.",
     null
    ]
   },
@@ -4908,23 +4908,23 @@
    "topic": "Logistic regression",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "A logistic regression model has weights w = [0.5, -0.25] and bias b = 0. What probability does it output for x = [1.0, 2.0]?",
-   "explanation": "z = 0.5 × 1.0 + (-0.25) × 2.0 + 0 = 0, and sigmoid(0) = 0.5.",
-   "concept": "Forward pass: dot product plus bias, then sigmoid.",
-   "source": "Lec 4.1, slide 11, Lec 4.1, slide 12",
+   "skill": "recall",
+   "question": "Why does logistic regression use log loss (binary cross-entropy) instead of mean squared error as its cost?",
+   "explanation": "The lecture says standard MSE is non-convex for logistic regression, so it uses log loss, minimised with gradient descent using an update that looks like linear regression's.",
+   "concept": "Log loss keeps the logistic cost convex.",
+   "source": "Lec 4.1, slides 13, 14",
    "options": [
-    "0.62",
-    "0.5",
-    "0.0",
-    "1.0"
+    "Because MSE can only be computed for classification tasks",
+    "Because log loss ignores how confident the predictions are",
+    "Because log loss does not need gradient descent to optimise",
+    "With the sigmoid, MSE is non-convex; log loss is not"
    ],
-   "answer": 1,
+   "answer": 3,
    "whyWrong": [
-    "This would need z to be about 0.5, but 0.5 × 1.0 - 0.25 × 2.0 = 0.",
-    null,
-    "A sigmoid output of exactly 0 would need z to be minus infinity.",
-    "A sigmoid output of exactly 1 would need z to be plus infinity."
+    "MSE is a regression metric; the issue is its shape with the sigmoid.",
+    "Log loss heavily penalises confident wrong predictions.",
+    "Log loss is minimised with gradient descent.",
+    null
    ]
   },
   {
@@ -4986,23 +4986,23 @@
    "topic": "Distance metrics",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "What is the Euclidean distance between the points (1, 2) and (4, 6)?",
-   "explanation": "Euclidean distance = sqrt((4-1)² + (6-2)²) = sqrt(9 + 16) = 5.",
-   "concept": "Euclidean is straight-line distance.",
+   "skill": "recall",
+   "question": "Which distance metric represents the straight-line, 'as the crow flies' distance between two points?",
+   "explanation": "Euclidean distance is the most common KNN metric and measures straight-line distance.",
+   "concept": "Euclidean = straight line; Manhattan = city blocks.",
    "source": "Lec 4.1, slide 17",
    "options": [
-    "7",
-    "5",
-    "25",
-    "3.5"
+    "Manhattan distance",
+    "Euclidean distance",
+    "Gini impurity",
+    "Log loss"
    ],
    "answer": 1,
    "whyWrong": [
-    "7 is the Manhattan distance: |4-1| + |6-2|.",
+    "Manhattan sums absolute differences, like walking city blocks.",
     null,
-    "25 is the squared distance before taking the square root.",
-    "This is not produced by either distance formula."
+    "Gini measures node impurity in trees, not distance.",
+    "Log loss is a cost function for classification."
    ]
   },
   {
@@ -5023,26 +5023,26 @@
    "id": "L4-B04-4",
    "lesson": 4,
    "block": 4,
-   "topic": "Distance metrics",
+   "topic": "K-nearest neighbours",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "For the points p = (1, 2, 3) and q = (4, 0, 3), which pair of values is correct?",
-   "explanation": "Differences are 3, 2 and 0. Manhattan = 3 + 2 + 0 = 5. Euclidean = sqrt(9 + 4 + 0) = sqrt(13), about 3.61.",
-   "concept": "Sum absolute differences for L1; square-root the sum of squares for L2.",
-   "source": "Lec 4.1, slide 17, Lec 4.1, slide 18",
+   "skill": "recall",
+   "question": "What is a practical drawback of KNN on a very large training set?",
+   "explanation": "KNN stores the whole training set and computes distances at prediction time, which is costly for large data. The lecture mentions index structures such as BallTree or KDTree to speed this up.",
+   "concept": "KNN is cheap to train and expensive to query.",
+   "source": "Lec 4.1, slides 16, 22",
    "options": [
-    "Manhattan = 5, Euclidean ≈ 3.61",
-    "Manhattan = 3.61, Euclidean = 5",
-    "Manhattan = 13, Euclidean ≈ 3.61",
-    "Manhattan = 5, Euclidean = 13"
+    "Training takes days because KNN fits millions of weights",
+    "It cannot handle more than two classes in its predictions",
+    "Each prediction is slow, since distances to all stored points are computed",
+    "It always underfits, whatever value of K is chosen"
    ],
-   "answer": 0,
+   "answer": 2,
    "whyWrong": [
+    "KNN has no training phase and no weights.",
+    "KNN works for multiclass problems by majority vote.",
     null,
-    "The values are swapped: Manhattan is 3 + 2 + 0 = 5.",
-    "13 is the squared Euclidean distance (9 + 4 + 0).",
-    "13 must be square-rooted to give the Euclidean distance."
+    "Small K actually tends to overfit."
    ]
   },
   {
@@ -5053,22 +5053,22 @@
    "type": "mcq",
    "difficulty": "hard",
    "skill": "scenario",
-   "question": "A fruit-sorting machine uses KNN with K = 3 on two scaled features (sweetness, crunchiness). Training points: A (1, 2) red, B (2, 4) blue, C (3, 3) blue, D (5, 5) red, E (2, 1) red. A new fruit is measured at (2, 2). Using Euclidean distance, what does the machine predict?",
-   "explanation": "Distances from (2, 2): A = 1, E = 1, C ≈ 1.41, B = 2, D ≈ 4.24. The three nearest are red, red and blue, so the majority vote is red.",
-   "concept": "Compute every distance, take the K smallest, then vote.",
-   "source": "Lec 4.1, slide 16, Lec 4.1, slide 17, Lec 4.1, slide 21",
+   "question": "A fruit-sorting machine uses KNN on scaled sweetness and crunchiness. For a new fruit, the single closest training point is blue, but the next two closest are both red. What does the machine predict with K = 3, and with K = 1?",
+   "explanation": "KNN predicts by majority vote among the K nearest neighbours. Small K follows the closest point (sensitive, high variance); larger K smooths the decision.",
+   "concept": "K controls how many neighbours vote.",
+   "source": "Lec 4.1, slides 16, 19",
    "options": [
-    "Red, because the three nearest points are A, E (both red) and C (blue)",
-    "Blue, because two of the three nearest points are blue",
-    "Blue, because C is the single closest point",
-    "No prediction is possible, because KNN must be trained first"
+    "Red with K = 3 (two of three votes); blue with K = 1",
+    "Blue in both cases, because the closest point always decides",
+    "Red in both cases, because red is the majority overall",
+    "No prediction, because KNN must be retrained for each K"
    ],
    "answer": 0,
    "whyWrong": [
     null,
-    "B is at distance 2, farther than A and E (distance 1 each). The nearest three are A, E and C.",
-    "C is at about 1.41; A and E are closer at exactly 1.",
-    "KNN needs no training phase; it decides at prediction time."
+    "With K = 3 the three neighbours vote, and red wins 2 to 1.",
+    "With K = 1 only the single closest point counts.",
+    "KNN has no training phase; K only changes how many neighbours vote."
    ]
   },
   {
@@ -5215,23 +5215,23 @@
    "topic": "Gini impurity",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "A node contains 6 samples of class A and 2 samples of class B. What is its Gini impurity?",
-   "explanation": "p(A) = 0.75, p(B) = 0.25. Gini = 1 - (0.75² + 0.25²) = 1 - 0.625 = 0.375.",
-   "concept": "Gini = 1 - sum of squared class proportions.",
-   "source": "Lec 4.1, slide 28, Lec 4.1, slide 32",
+   "skill": "recall",
+   "question": "What is the Gini impurity of a perfectly pure node, where every sample is the same class?",
+   "explanation": "Gini = 1 − Σp². A pure node has one class with p = 1, so Gini = 0; a 50/50 binary node gives 0.5.",
+   "concept": "Pure node, zero impurity.",
+   "source": "Lec 4.1, slide 32",
    "options": [
-    "0.375",
-    "0.25",
-    "0.625",
-    "0.5"
+    "0.5",
+    "0",
+    "1",
+    "It cannot be computed for a pure node"
    ],
-   "answer": 0,
+   "answer": 1,
    "whyWrong": [
+    "0.5 is the Gini of a 50/50 binary node, the most mixed case.",
     null,
-    "0.25 is the proportion of class B, not the impurity.",
-    "0.625 is the sum of squared proportions (0.5625 + 0.0625); Gini is 1 minus that.",
-    "0.5 is the Gini impurity of a perfectly balanced two-class node."
+    "Gini for two classes never reaches 1.",
+    "It can: the formula gives 0."
    ]
   },
   {
@@ -5282,22 +5282,22 @@
    "type": "mcq",
    "difficulty": "hard",
    "skill": "scenario",
-   "question": "A loan-approval tree is choosing its next split. The parent node is a 50/50 mix (entropy 1.0). Split A produces two equal-sized children, each with entropy 0.9. Split B produces two equal-sized children with entropies 0.0 and 0.8. Using information gain, which split should be chosen?",
-   "explanation": "IG = parent entropy - weighted child entropy. Split A: 1.0 - 0.9 = 0.1. Split B: 1.0 - (0.5 × 0.0 + 0.5 × 0.8) = 0.6. The tree picks the split with the highest information gain.",
-   "concept": "Choose the split that reduces disorder the most.",
-   "source": "Lec 4.1, slide 26, Lec 4.1, slide 27",
+   "question": "A loan-approval tree must choose its next split. Split A leaves both child nodes almost as mixed as the parent. Split B produces children that are each mostly one class. Which split does information gain prefer, and why?",
+   "explanation": "Information gain is the drop in entropy from parent to children. Purer children mean a bigger drop, so the tree chooses split B.",
+   "concept": "Trees pick the split that makes children purest.",
+   "source": "Lec 4.1, slides 26, 27",
    "options": [
-    "Split A, because its children are equally mixed and therefore balanced",
+    "Split B, because its children are purer, so entropy falls more",
+    "Split A, because evenly mixed children keep the tree balanced",
     "Split A, because higher child entropy means more information gained",
-    "Neither, because a split is only valid if all children have entropy 0",
-    "Split B, with information gain 0.6 compared with 0.1 for split A"
+    "Neither, because a split is only allowed if the children are completely pure"
    ],
-   "answer": 3,
+   "answer": 0,
    "whyWrong": [
-    "Balanced impurity is not the goal; the reduction in entropy is.",
-    "Information gain is the reduction in entropy; higher child entropy means less gain.",
-    "Splits rarely produce perfectly pure children; the best split has the highest gain.",
-    null
+    null,
+    "Balance is not the criterion; reduction in impurity is.",
+    "Gain is parent entropy minus child entropy, so higher child entropy means less gain.",
+    "Splits only need to reduce impurity, not remove it."
    ]
   },
   {
@@ -5379,22 +5379,22 @@
    "type": "mcq",
    "difficulty": "medium",
    "skill": "application",
-   "question": "A classifier's confusion matrix has TP = 40, FP = 10, FN = 20 and TN = 930. Which pair of values is correct?",
-   "explanation": "Precision = 40 / (40 + 10) = 0.80. Recall = 40 / (40 + 20) ≈ 0.67. Accuracy would be 970 / 1000 = 0.97.",
-   "concept": "Precision divides by predicted positives; recall divides by actual positives.",
-   "source": "Lec 4.1, slide 33, Lec 4.1, slide 34",
+   "question": "A cancer-screening model must miss as few real cases as possible, even if it raises some false alarms. Which metric should be prioritised?",
+   "explanation": "Recall asks how many actual positives were caught. Missing a real case is a false negative, which recall directly penalises.",
+   "concept": "Costly misses call for high recall.",
+   "source": "Lec 4.1, slides 33, 34",
    "options": [
-    "Precision ≈ 0.67, recall = 0.80",
-    "Precision = 0.97, recall = 0.80",
-    "Precision = 0.80, recall ≈ 0.67",
-    "Precision = 0.80, recall = 0.97"
+    "Precision",
+    "Accuracy",
+    "Specificity of the negative class only",
+    "Recall"
    ],
-   "answer": 2,
+   "answer": 3,
    "whyWrong": [
-    "The values are swapped. Precision uses FP: 40/50. Recall uses FN: 40/60.",
-    "0.97 is accuracy, (40 + 930) / 1000, not precision.",
-    null,
-    "0.97 is accuracy, not recall."
+    "Precision limits false alarms; here missed cases are the bigger worry.",
+    "Accuracy can look high while missing many rare positive cases.",
+    "This focuses on negatives, not on catching positives.",
+    null
    ]
   },
   {
@@ -5501,23 +5501,23 @@
    "topic": "Soft and hard voting",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "Three models give these probabilities for class 1 on one example: 0.90, 0.40 and 0.40. Using a 0.5 threshold for each model, what do hard voting and soft voting predict?",
-   "explanation": "Hard voting counts labels: one vote for class 1, two for class 0. Soft voting averages probabilities: (0.9 + 0.4 + 0.4) / 3 ≈ 0.57, so class 1.",
-   "concept": "Soft voting lets confident predictions carry more weight.",
-   "source": "Lec 4.1, slide 41, Lec 4.1, slide 42",
+   "skill": "recall",
+   "question": "What information does hard voting ignore that soft voting uses?",
+   "explanation": "Hard voting counts one vote per model's predicted label. Soft voting averages predicted probabilities, so confident predictions carry more weight.",
+   "concept": "Soft voting weighs confidence; hard voting just counts.",
+   "source": "Lec 4.1, slides 41, 42",
    "options": [
-    "Hard voting: class 0; soft voting: class 1",
-    "Hard voting: class 1; soft voting: class 0",
-    "Both predict class 0",
-    "Both predict class 1"
+    "Which class each model predicts",
+    "The number of models in the ensemble",
+    "How confident each model is in its prediction",
+    "Whether the task is classification or regression"
    ],
-   "answer": 0,
+   "answer": 2,
    "whyWrong": [
+    "Hard voting uses exactly that: one vote per predicted class.",
+    "Both rules depend on how many models vote.",
     null,
-    "Only one model votes for class 1, so hard voting gives class 0.",
-    "The average probability is about 0.57, above 0.5, so soft voting gives class 1.",
-    "Two of three models vote class 0, so hard voting gives class 0."
+    "Both are classification combining rules."
    ]
   },
   {
@@ -5790,23 +5790,23 @@
    "topic": "Soft and hard voting",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "For one sample, model A predicts class probabilities [0.6, 0.4] and model B predicts [0.2, 0.8]. What does soft voting predict?",
-   "explanation": "Average per class: class 0 = (0.6 + 0.2) / 2 = 0.4; class 1 = (0.4 + 0.8) / 2 = 0.6. argmax picks class 1.",
-   "concept": "Soft voting averages probabilities, then takes the argmax.",
+   "skill": "recall",
+   "question": "In soft voting, what is combined across the models?",
+   "explanation": "Soft voting averages each class's probability across models and picks the class with the highest average.",
+   "concept": "Soft voting averages probabilities.",
    "source": "Lec 4.1, slides 41, 42",
    "options": [
-    "Class 0, because model A is more confident than model B",
-    "Class 0, with average probability 0.4",
-    "No class, because the two models disagree with each other",
-    "Class 1, with average probability 0.6"
+    "Their predicted class labels, counted as votes",
+    "Their predicted class probabilities, which are averaged",
+    "Their training data, merged into one dataset",
+    "Their hyperparameters, averaged into one model"
    ],
-   "answer": 3,
+   "answer": 1,
    "whyWrong": [
-    "A's 0.6 is less confident than B's 0.8, and soft voting averages anyway.",
-    "0.4 is the average for class 0, the smaller one, so class 0 loses.",
-    "Soft voting always returns the class with the highest average probability.",
-    null
+    "That is hard voting.",
+    null,
+    "Voting combines predictions, not data.",
+    "Models keep their own settings."
    ]
   },
   {
@@ -5816,23 +5816,23 @@
    "topic": "AdaBoost",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "Sample weights start at [0.25, 0.25, 0.25, 0.25]. Only sample 3 (index 2) is misclassified. Using the lecture's rule (double the weight of each error, then normalise to sum 1), what are the new weights?",
-   "explanation": "After doubling: [0.25, 0.25, 0.5, 0.25], total 1.25. Dividing by 1.25 gives [0.2, 0.2, 0.4, 0.2]. The next learner now focuses more on sample 3.",
-   "concept": "Boosting up-weights mistakes, then renormalises.",
-   "source": "Lec 4.1, slides 51, 52",
+   "skill": "recall",
+   "question": "In the lecture's AdaBoost weight-update logic, what happens to the weights of misclassified samples?",
+   "explanation": "Errors are up-weighted (doubled in the lecture's example), then the weights are normalised, so the next learner focuses on the hard samples.",
+   "concept": "AdaBoost up-weights mistakes.",
+   "source": "Lec 4.1, slides 50, 51, 52",
    "options": [
-    "[0.25, 0.25, 0.5, 0.25]",
-    "[0.2, 0.2, 0.4, 0.2]",
-    "[0.25, 0.25, 0.125, 0.25]",
-    "[0.3, 0.3, 0.1, 0.3]"
+    "They are decreased so the next learner can ignore them",
+    "They are set to zero and removed from the data",
+    "They are increased, and then all weights are normalised to sum to 1",
+    "They stay the same; only correctly classified samples change"
    ],
-   "answer": 1,
+   "answer": 2,
    "whyWrong": [
-    "This doubles the error but forgets to normalise; the weights sum to 1.25.",
+    "Boosting focuses on mistakes, so their weight goes up.",
+    "Misclassified samples become more important, not removed.",
     null,
-    "This halves the misclassified sample instead of increasing it.",
-    "This shifts weight towards the correct samples, the opposite of boosting."
+    "The update targets the errors."
    ]
   },
   {
@@ -5856,23 +5856,23 @@
    "topic": "Gradient boosting",
    "type": "mcq",
    "difficulty": "medium",
-   "skill": "application",
-   "question": "In gradient boosting for two samples, the true values are y = [10, 14] and Tree 1 predicts [12, 11]. What does Tree 2 try to predict?",
-   "explanation": "Residual = y − ŷ: 10 − 12 = −2 and 14 − 11 = 3. Tree 2 learns 'how much Tree 1 got wrong', and its output is added (scaled by the learning rate) to Tree 1's.",
+   "skill": "recall",
+   "question": "In gradient boosting, what is the second tree trained to predict?",
+   "explanation": "Tree 2 is not trying to predict y; it fits the residuals (the negative gradient of the loss) left by Tree 1, and its output is added to the ensemble.",
    "concept": "Each boosting tree fits what is left over.",
    "source": "Lec 4.1, slides 53, 54",
    "options": [
-    "[2, −3]",
-    "[10, 14]",
-    "[−2, 3]",
-    "[22, 25]"
+    "How much the first tree got wrong (the residuals)",
+    "The original target values, exactly like the first tree",
+    "A random subset of the features chosen at each split",
+    "The weights of the misclassified samples"
    ],
-   "answer": 2,
+   "answer": 0,
    "whyWrong": [
-    "This is prediction minus truth; residuals are truth minus prediction.",
-    "That is the original target, which Tree 1 already fitted.",
     null,
-    "This adds truth and prediction, which has no meaning here."
+    "Only the first tree fits the target directly.",
+    "That describes random-forest feature randomness.",
+    "That is AdaBoost's mechanism, not gradient boosting's."
    ]
   },
   {
@@ -5883,21 +5883,21 @@
    "type": "mcq",
    "difficulty": "hard",
    "skill": "scenario",
-   "question": "A fraud team combines three classifiers. For one transaction, their fraud probabilities are 0.90, 0.45 and 0.40 (threshold 0.5). What do hard and soft voting decide?",
-   "explanation": "Hard voting: one vote for fraud, two against, so not fraud. Soft voting: the average is 1.75 / 3 ≈ 0.58 > 0.5, so fraud. Soft voting lets the confident model count for more, which is why the lecture prefers it.",
+   "question": "A fraud team combines three classifiers. For one transaction, one model is very confident it is fraud, while the other two lean only slightly towards 'not fraud'. What can hard and soft voting decide?",
+   "explanation": "Hard voting gives each model one vote. Soft voting averages probabilities, so one very confident model can outweigh two models that are only slightly unsure, which is why the lecture prefers soft voting.",
    "concept": "Hard voting counts; soft voting weighs confidence.",
    "source": "Lec 4.1, slide 42; Lec 5.1, slide 28",
    "options": [
-    "Both say fraud, because one of the three models is very confident",
-    "Both say not fraud, because most of the models are below 0.5",
-    "Hard voting says fraud, while soft voting says the transaction is not fraud",
-    "Hard voting says not fraud (2 of 3 votes); soft voting says fraud (average about 0.58)"
+    "Both must say fraud, because one of the models is very confident",
+    "Both must say not fraud, because most models lean that way",
+    "Hard voting says fraud while soft voting must say not fraud",
+    "Hard: not fraud (2 votes to 1); soft: can be fraud, as confidence lifts the average"
    ],
    "answer": 3,
    "whyWrong": [
-    "Hard voting counts votes; one confident model is still outvoted 2 to 1.",
-    "Soft voting averages probabilities: (0.90 + 0.45 + 0.40) / 3 ≈ 0.58.",
-    "This reverses the two rules' outcomes.",
+    "Hard voting counts votes; the confident model is outvoted 2 to 1.",
+    "Soft voting averages probabilities, so strong confidence can outweigh two weak leanings.",
+    "This reverses how the two rules treat confidence.",
     null
    ]
   },
@@ -6454,22 +6454,22 @@
    "type": "mcq",
    "difficulty": "medium",
    "skill": "application",
-   "question": "A model predicts exam marks as ŷ = 20 + 3 × study_hours + 0.5 × attendance_percent. What is the prediction for a student with 4 study hours and 80% attendance?",
-   "explanation": "ŷ = 20 + 3 × 4 + 0.5 × 80 = 20 + 12 + 40 = 72.",
-   "concept": "Plug each feature into the equation and add the intercept.",
+   "question": "A model predicts exam marks as ŷ = 20 + 3 × study_hours + 0.5 × attendance_percent. What does the coefficient 3 mean?",
+   "explanation": "Each weight is how much the prediction changes when that feature rises by one unit while all other features are held constant.",
+   "concept": "A weight is the change per unit, others held fixed.",
    "source": "Lec 5.1, slide 5",
    "options": [
-    "60",
-    "112",
-    "72",
-    "32"
+    "Every student is predicted to score at least 3 marks",
+    "Each extra study hour adds 3 marks, attendance held constant",
+    "Studying causes exactly 3 more marks for every student",
+    "Study hours are three times as important as the intercept"
    ],
-   "answer": 2,
+   "answer": 1,
    "whyWrong": [
-    "This is 20 + 40, leaving out the study-hours term 3 × 4 = 12.",
-    "This uses the full attendance value 80 instead of 0.5 × 80 = 40.",
+    "That is not what a slope means; 20 is the intercept.",
     null,
-    "This is 20 + 12, leaving out the attendance term entirely."
+    "A coefficient describes association in the model, not proven cause.",
+    "Coefficients and intercept are not compared that way."
    ]
   },
   {
@@ -6929,22 +6929,22 @@
    "type": "mcq",
    "difficulty": "medium",
    "skill": "application",
-   "question": "A model's errors on five test points are 2, -2, 4, -4 and 10. Which set of metric values is correct?",
-   "explanation": "MAE = (2 + 2 + 4 + 4 + 10) / 5 = 4.4. MSE = (4 + 4 + 16 + 16 + 100) / 5 = 28. RMSE = sqrt(28) ≈ 5.29. The single error of 10 contributes 100 of the 140 squared total.",
-   "concept": "Squaring lets one large error dominate.",
-   "source": "Lec 5.1, slide 18, Lec 5.1, slide 19, Lec 5.1, slide 20",
+   "question": "A model's test errors are mostly small, but one prediction misses by a very large amount. Which metric will that one miss inflate the most?",
+   "explanation": "MSE squares errors, so one large miss produces a huge penalty that dominates the loss. MAE weights all errors equally and is more robust; RMSE keeps MSE's sensitivity in the target's units.",
+   "concept": "Squared errors amplify outliers.",
+   "source": "Lec 5.1, slides 19, 20",
    "options": [
-    "MAE = 2.0, MSE = 28, RMSE ≈ 5.29",
-    "MAE = 4.4, MSE = 140, RMSE ≈ 11.83",
-    "MAE = 4.4, MSE = 28, RMSE ≈ 5.29",
-    "MAE = 4.4, MSE ≈ 5.29, RMSE = 28"
+    "MSE, because squaring makes large errors dominate",
+    "MAE, because it treats every error equally",
+    "R² only, because MSE ignores outliers",
+    "None of them, because one error is averaged away"
    ],
-   "answer": 2,
+   "answer": 0,
    "whyWrong": [
-    "MAE uses absolute errors; the signed errors averaging to 2 is the mean error, not MAE.",
-    "140 is the sum of squared errors; MSE divides it by 5.",
     null,
-    "MSE and RMSE are swapped."
+    "Treating errors equally is exactly why MAE is less affected.",
+    "MSE is the metric most sensitive to outliers.",
+    "Squaring a large error can dominate the average."
    ]
   },
   {
@@ -7575,23 +7575,23 @@
    "topic": "Interpreting coefficients",
    "type": "mcq",
    "difficulty": "easy",
-   "skill": "application",
-   "question": "A simple model on the diabetes data has intercept ≈ 152 and slope ≈ 949 for scaled BMI. What is the predicted progression for a patient whose scaled BMI is 0.05?",
-   "explanation": "ŷ = 152 + 949 × 0.05 = 152 + 47.45 ≈ 199.",
-   "concept": "Prediction = intercept + slope × feature.",
-   "source": "Lec 5.1, slides 5, 15",
+   "skill": "recall",
+   "question": "In the simple diabetes model, the intercept is about 152. Because the features are centred, what does 152 represent?",
+   "explanation": "With centred features, x = 0 is the average, so the intercept is the predicted score for a patient at average BMI.",
+   "concept": "With centred data, the intercept is the prediction at the average.",
+   "source": "Lec 5.1, slides 14, 15",
    "options": [
-    "About 152",
-    "About 199",
-    "About 1,101",
-    "About 47"
+    "The progression score for a patient with a BMI of zero",
+    "The increase in progression per unit of BMI",
+    "The number of patients in the dataset",
+    "The expected progression score for a patient at average BMI"
    ],
-   "answer": 1,
+   "answer": 3,
    "whyWrong": [
-    "This uses only the intercept and ignores the patient's BMI.",
-    null,
-    "This adds the whole slope, as if scaled BMI were 1.",
-    "This uses the slope term but forgets to add the intercept."
+    "Centred data makes x = 0 the average, not a real BMI of zero.",
+    "That is the slope (about 949).",
+    "There are 442 patients; 152 is a prediction.",
+    null
    ]
   },
   {
